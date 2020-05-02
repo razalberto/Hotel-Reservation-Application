@@ -18,9 +18,9 @@
 
     <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-    <Label text="Adress:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Label text="Address:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
-    <TextField fx:id="adressField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
     <Label text="E-mail:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
@@ -43,9 +43,9 @@
     <ChoiceBox fx:id="role" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
     </ChoiceBox>
 
-
+    <Text fx:id="registrationMessage" GridPane.columnIndex="1" GridPane.rowIndex="11"/>
     <HBox alignment="bottom_right" spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="9">
-        <Button  text="Register"/>
+        <Button onAction="#handleRegisterAction" text="Register"/>
     </HBox>
 
 </GridPane>

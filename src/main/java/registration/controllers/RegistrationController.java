@@ -5,7 +5,9 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-
+import registration.exceptions.PasswordTooShortException;
+import registration.exceptions.UsernameAlreadyExistsException;
+import registration.services.UserService;
 
 
 public class RegistrationController {
@@ -19,7 +21,7 @@ public class RegistrationController {
     @FXML
     private TextField nameField;
     @FXML
-    private TextField adressField;
+    private TextField addressField;
     @FXML
     private TextField emailField;
     @FXML
@@ -32,5 +34,18 @@ public class RegistrationController {
         role.getItems().addAll("Customer", "Hotel Manager");
     }
 
+    @FXML
+    public void handleRegisterAction() {
+        try {
+            UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), nameField.getText(), addressField.getText(), emailField.getText(), phoneNumberField.getText());
+            registrationMessage.setText("Account created successfully!");
+        } catch (UsernameAlreadyExistsException e) {
+            registrationMessage.setText(e.getMessage());
+        }catch (PasswordTooShortException e){
+
+            registrationMessage.setText(e.getMessage());
+        }
+
+    }
 
 }
