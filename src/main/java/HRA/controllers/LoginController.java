@@ -1,5 +1,8 @@
 package HRA.controllers;
 
+import HRA.exceptions.IncorrectPassword;
+import HRA.exceptions.UsernameDoesNotExist;
+import HRA.services.UserService;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -29,16 +32,17 @@ public class LoginController {
             return;
         }
 
-        if (username.equals("student") && password.equals("student")) {
-            loginMessage.setText("Logged in as student!");
-            return;
+        try{
+            UserService.checkUserAndPassword(username,password);
+        } catch (UsernameDoesNotExist e) {
+            loginMessage.setText(e.toString());
+        } catch (IncorrectPassword e) {
+            loginMessage.setText(e.toString());
         }
 
-        if (username.equals("teacher") && password.equals("teacher")) {
-            loginMessage.setText("Logged in as teacher!");
-            return;
+        if(UserService.getAccession()){
+            loginMessage.setText("Successfully logged in!");
         }
 
-        loginMessage.setText("Incorrect login!");
     }
 }

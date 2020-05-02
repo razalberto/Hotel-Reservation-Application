@@ -1,10 +1,11 @@
 package HRA.services;
 
 import HRA.exceptions.CouldNotWriteUsersException;
+import HRA.exceptions.IncorrectPassword;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import HRA.exceptions.UsernameAlreadyExistsException;
+import HRA.exceptions.UsernameDoesNotExist;
 import HRA.model.User;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class UserService {
 
     private static List<User> users;
     private static final Path USERS_PATH = FileSystemService.getPathToFile("config", "users.json");
+    private static boolean accession = false;
 
     public static void loadUsersFromFile() throws IOException {
 
@@ -33,26 +35,25 @@ public class UserService {
         });
     }
 
-    public static void addUser(String username, String password) throws UsernameAlreadyExistsException {
-        checkUserDoesNotAlreadyExist(username);
-        users.add(new User(username, encodePassword(username, password)));
-        persistUsers();
-    }
 
-    private static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException {
+    public static void checkUserAndPassword(String username, String password) throws UsernameDoesNotExist, IncorrectPassword {
         for (User user : users) {
             if (Objects.equals(username, user.getUsername()))
-                throw new UsernameAlreadyExistsException(username);
+                if(Objects.equals(encodePassword(username,password),user.getPassword())) {
+                    accession = true;
+                    return;
+                }
+                else {
+                    accession = false;
+                    throw new IncorrectPassword();
+                }
         }
+        accession = false;
+        throw new UsernameDoesNotExist();
     }
 
-    private static void persistUsers() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(USERS_PATH.toFile(), users);
-        } catch (IOException e) {
-            throw new CouldNotWriteUsersException();
-        }
+    public static boolean getAccession() {
+        return accession;
     }
 
     private static String encodePassword(String salt, String password) {
