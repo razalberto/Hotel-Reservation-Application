@@ -1,13 +1,8 @@
 package HRA.exceptions;
 
-public class UsernameDoesNotExist extends Exception {
+public class UsernameDoesNotExist extends UsernameOrPasswordIncorrect {
 
     public UsernameDoesNotExist(){
-        super(String.format("Username is incorrect!"));
+        super();
     }
-
-    public String toString(){
-        return "Username is incorrect!";
-    }
-
 }

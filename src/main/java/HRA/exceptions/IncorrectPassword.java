@@ -1,12 +1,9 @@
 package HRA.exceptions;
 
-public class IncorrectPassword extends Exception {
+public class IncorrectPassword extends UsernameOrPasswordIncorrect {
 
     public IncorrectPassword(){
-        super(String.format("Password is incorrect!"));
+        super();
     }
 
-    public String toString(){
-        return "Password is incorrect!";
-    }
 }
