@@ -1,5 +1,6 @@
 package HRA.controllers;
 
+import HRA.Main;
 import HRA.exceptions.IncorrectPassword;
 import HRA.exceptions.UsernameDoesNotExist;
 import HRA.services.UserService;
@@ -9,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -21,6 +23,10 @@ import java.net.URL;
 public class LoginController{
 
     @FXML
+    public Button loginButton;
+    @FXML
+    public Button registerButton;
+    @FXML
     public Text loginMessage;
     @FXML
     public PasswordField passwordField;
@@ -28,7 +34,7 @@ public class LoginController{
     public TextField usernameField;
 
     @FXML
-    public void handleLoginButtonAction() {
+    public void handleLoginButtonAction() throws Exception {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -52,22 +58,33 @@ public class LoginController{
 
         if (UserService.getAccession()) {
             loginMessage.setText("Successfully logged in!");
+            loginButtonAction();
         }
 
     }
 
-/*
-    protected Stage regPopupWindow;
-    protected Scene regPopupWindowScene;
 
-    public void handleRegisterButtonAction() throws IOException {
+    public void handleRegisterButtonAction() throws Exception {
 
-       // Parent mainPage = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
-        regPopupWindow.setTitle("Register Test");
 
-        regPopupWindow.initModality(Modality.WINDOW_MODAL);
-        regPopupWindow.setScene(regPopupWindowScene);
+        Stage regPopupWindow = new Stage();
+        regPopupWindow.initModality(Modality.APPLICATION_MODAL);
+        regPopupWindow.setTitle("Registration");
+
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml")); //TODO after i get register page and controller
+        Scene scene = new Scene(root,1280/1.5, 720/1.5);
+
+        regPopupWindow.setScene(scene);
         regPopupWindow.showAndWait();
     }
-*/
+
+    private Stage mainLoginStage = Main.getPrimaryStage();
+
+    public void loginButtonAction() throws Exception {
+
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml")); //TODO after login page for manager and customer is made
+        mainLoginStage.setScene(new Scene(root,1280, 720));
+        mainLoginStage.setTitle("Logged in! HRA");
+
+    }
 }

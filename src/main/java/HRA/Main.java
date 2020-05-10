@@ -9,6 +9,9 @@ import HRA.services.UserService;
 
 public class Main extends Application {
 
+    private static Stage window; // ??
+    //private Stage window; ??
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -16,11 +19,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        window = primaryStage;
         UserService.loadUsersFromFile();
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-        primaryStage.setTitle("Hotel Reservation Aplication");
-        primaryStage.setScene(new Scene(root, 500, 375));
-        primaryStage.show();
+        window.setTitle("Hotel Reservation Aplication");
+        window.setScene(new Scene(root, 1280, 720));
+        window.show();
     }
+
+    public static Stage getPrimaryStage(){
+        return window;
+    } //?? why doesn't work // non-static ??
 }
