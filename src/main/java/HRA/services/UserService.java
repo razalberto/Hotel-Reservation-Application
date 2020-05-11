@@ -1,6 +1,5 @@
 package HRA.services;
 
-import HRA.exceptions.CouldNotWriteUsersException;
 import HRA.exceptions.IncorrectPassword;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,6 +74,10 @@ public class UserService {
             throw new IllegalStateException("SHA-512 does not exist!");
         }
         return md;
+    }
+
+    public static List<User> getUsersFromUserService(){
+        return users;
     }
 
 
