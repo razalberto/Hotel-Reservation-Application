@@ -1,11 +1,12 @@
 package HRA.services;
 
-import HRA.exceptions.IncorrectPassword;
+import HRA.exceptions.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
 import HRA.exceptions.UsernameDoesNotExist;
 import HRA.model.User;
+import HRA.exceptions.CouldNotWriteUsersException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -34,6 +35,29 @@ public class UserService {
         });
     }
 
+    public static void addUser(String username, String password, String role, String name, String address, String email, String phoneNumber) throws UsernameAlreadyExistsException, PasswordTooShortException {
+        checkUserDoesNotAlreadyExist(username);
+        if(password.length() < 4)
+            throw new PasswordTooShortException();
+        users.add(new HRA.model.User(username, encodePassword(username, password), role, name, address, email, phoneNumber));
+        persistUsers();
+    }
+
+    private static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException {
+        for (HRA.model.User user : users) {
+            if (Objects.equals(username, user.getUsername()))
+                throw new UsernameAlreadyExistsException(username);
+        }
+    }
+
+    private static void persistUsers() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(USERS_PATH.toFile(), users);
+        } catch (IOException e) {
+            throw new CouldNotWriteUsersException();
+        }
+    }
 
     public static void checkUserAndPassword(String username, String password) throws UsernameDoesNotExist, IncorrectPassword {
         for (User user : users) {

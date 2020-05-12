@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.loose</groupId>
-    <artifactId>Hotel-Reservation-Aplication</artifactId>
+    <artifactId>Hotel-Reservation-Application</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -25,7 +25,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.4.1</version>
                 <configuration>
-                    <finalName>simple-registration-example</finalName>
+                    <finalName>Hotel Reservation Application</finalName>
                     <!-- get all project dependencies -->
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
