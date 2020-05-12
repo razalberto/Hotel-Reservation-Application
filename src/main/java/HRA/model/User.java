@@ -1,5 +1,4 @@
-package registration.model;
-
+package HRA.model;
 
 public class User {
 
@@ -22,8 +21,6 @@ public class User {
         this.address = address;
         this.email = email;
         this.phoneNumber = phoneNumber;
-
-
     }
 
     public String getUsername() {

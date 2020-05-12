@@ -1,13 +1,13 @@
-package registration.controllers;
+package HRA.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import registration.exceptions.PasswordTooShortException;
-import registration.exceptions.UsernameAlreadyExistsException;
-import registration.services.UserService;
+import HRA.exceptions.PasswordTooShortException;
+import HRA.exceptions.UsernameAlreadyExistsException;
+import HRA.services.UserService;
 
 
 public class RegistrationController {
@@ -39,6 +39,7 @@ public class RegistrationController {
         try {
             UserService.addUser(usernameField.getText(), passwordField.getText(), (String) role.getValue(), nameField.getText(), addressField.getText(), emailField.getText(), phoneNumberField.getText());
             registrationMessage.setText("Account created successfully!");
+
         } catch (UsernameAlreadyExistsException e) {
             registrationMessage.setText(e.getMessage());
         }catch (PasswordTooShortException e){

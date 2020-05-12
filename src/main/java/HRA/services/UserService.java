@@ -1,12 +1,11 @@
-package registration.services;
+package HRA.services;
 
-import registration.exceptions.CouldNotWriteUsersException;
+import HRA.exceptions.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
-import registration.exceptions.PasswordTooShortException;
-import registration.exceptions.UsernameAlreadyExistsException;
-import registration.model.User;
+import HRA.model.User;
+import HRA.exceptions.CouldNotWriteUsersException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +20,7 @@ public class UserService {
 
     private static List<User> users;
     private static final Path USERS_PATH = FileSystemService.getPathToFile("config", "users.json");
+    private static boolean accession = false;
 
     public static void loadUsersFromFile() throws IOException {
 
@@ -38,17 +38,16 @@ public class UserService {
         checkUserDoesNotAlreadyExist(username);
         if(password.length() < 4)
             throw new PasswordTooShortException();
-        users.add(new User(username, encodePassword(username, password), role, name, address, email, phoneNumber));
+        users.add(new HRA.model.User(username, encodePassword(username, password), role, name, address, email, phoneNumber));
         persistUsers();
     }
 
     private static void checkUserDoesNotAlreadyExist(String username) throws UsernameAlreadyExistsException {
-        for (User user : users) {
+        for (HRA.model.User user : users) {
             if (Objects.equals(username, user.getUsername()))
                 throw new UsernameAlreadyExistsException(username);
         }
     }
-
 
     private static void persistUsers() {
         try {
@@ -57,6 +56,26 @@ public class UserService {
         } catch (IOException e) {
             throw new CouldNotWriteUsersException();
         }
+    }
+
+    public static void checkUserAndPassword(String username, String password) throws UsernameDoesNotExist, IncorrectPassword {
+        for (User user : users) {
+            if (Objects.equals(username, user.getUsername()))
+                if(Objects.equals(encodePassword(username,password),user.getPassword())) {
+                    accession = true;
+                    return;
+                }
+                else {
+                    accession = false;
+                    throw new IncorrectPassword();
+                }
+        }
+        accession = false;
+        throw new UsernameDoesNotExist();
+    }
+
+    public static boolean getAccession() {
+        return accession;
     }
 
     private static String encodePassword(String salt, String password) {
@@ -82,4 +101,3 @@ public class UserService {
 
 
 }
-

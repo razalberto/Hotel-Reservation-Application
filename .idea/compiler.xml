@@ -17,10 +17,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Hotel-Reservation-Application" />
+        <module name="Hotel-Reservation-Aplication" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Hotel-Reservation-Application" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>
