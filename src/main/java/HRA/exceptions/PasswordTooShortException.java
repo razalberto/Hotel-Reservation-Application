@@ -1,4 +1,4 @@
-package registration.exceptions;
+package HRA.exceptions;
 
 public class PasswordTooShortException extends Exception {
     private String password;

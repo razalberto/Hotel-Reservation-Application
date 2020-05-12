@@ -1,4 +1,4 @@
-package registration.exceptions;
+package HRA.exceptions;
 
 public class UsernameAlreadyExistsException extends Exception {
 
