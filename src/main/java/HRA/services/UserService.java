@@ -4,6 +4,7 @@ import HRA.exceptions.*;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.FileUtils;
+import HRA.exceptions.UsernameDoesNotExist;
 import HRA.model.User;
 import HRA.exceptions.CouldNotWriteUsersException;
 
@@ -97,6 +98,10 @@ public class UserService {
             throw new IllegalStateException("SHA-512 does not exist!");
         }
         return md;
+    }
+
+    public static List<User> getUsersFromUserService(){
+        return users;
     }
 
 

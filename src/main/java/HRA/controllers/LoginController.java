@@ -82,9 +82,12 @@ public class LoginController{
 
     public void loginButtonAction() throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml")); //TODO after login page for manager and customer is made
-        mainLoginStage.setScene(new Scene(root,1280, 720));
+
         mainLoginStage.setTitle("Logged in! HRA");
 
+        LoggedCustomerController LCC = new LoggedCustomerController();
+        LCC.something();
+
+        mainLoginStage.setScene(LCC.getMainScene());
     }
 }
