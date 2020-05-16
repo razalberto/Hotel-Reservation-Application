@@ -3,6 +3,7 @@ package HRA.controllers;
 import HRA.Main;
 import HRA.exceptions.IncorrectPassword;
 import HRA.exceptions.UsernameDoesNotExist;
+import HRA.model.User;
 import HRA.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,9 +19,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-
+import java.util.List;
+import java.util.Objects;
 
 public class LoginController{
+
+    private List<User> users = UserService.getUsersFromUserService();
 
     @FXML
     public Button loginButton;
@@ -85,9 +89,18 @@ public class LoginController{
 
         mainLoginStage.setTitle("Logged in! HRA");
 
-        LoggedCustomerController LCC = new LoggedCustomerController();
-        LCC.something();
-
-        mainLoginStage.setScene(LCC.getMainScene());
+        for (User user : users) {
+            if (Objects.equals(usernameField.getText(), user.getUsername())) {
+                if (Objects.equals("Hotel Manager", user.getRole())) {
+                    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("mainpagehm.fxml"));
+                    Scene hmScene = new Scene(root,1280, 720);
+                    mainLoginStage.setScene(hmScene);
+                } else {
+                    LoggedCustomerController LCC = new LoggedCustomerController();
+                    LCC.handleLoggedCustomer();
+                    mainLoginStage.setScene(LCC.getMainScene());
+                }
+            }
+        }
     }
 }
