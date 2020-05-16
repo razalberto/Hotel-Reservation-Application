@@ -36,7 +36,7 @@ public class LoggedCustomerController {
     private ListView<String> listView;
 
 
-    public void something() {
+    public void handleLoggedCustomer() {
 
         //Reservation Log
         Button reservationLogButton = new Button("Past Reservations");
