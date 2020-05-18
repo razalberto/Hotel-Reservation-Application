@@ -5,13 +5,14 @@ import HRA.model.User;
 import HRA.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
@@ -19,6 +20,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
@@ -34,7 +36,7 @@ public class LoggedCustomerController {
     private List<User> users = UserService.getUsersFromUserService();
     private static Scene mainLoginCustomerScene;
     private ListView<String> listView;
-
+    private TextField searchField = new TextField();
 
     public void handleLoggedCustomer() {
 
@@ -47,16 +49,12 @@ public class LoggedCustomerController {
         //List of hotels control
         listView = new ListView<>();
         listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        for (User user : users) {
-            if (Objects.equals("Hotel Manager", user.getRole()))
-                listView.getItems().add(user.getUsername());
-        }
+        makeDefaultListOfHotels();
 
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(MouseEvent event) {
-                System.out.println("clicked on " + listView.getSelectionModel().getSelectedItem());
+                //TODO
             }
         });
 
@@ -65,13 +63,18 @@ public class LoggedCustomerController {
             Button searchButton = new Button();
             Image searchImg = new Image("searchIcon.png");
             ImageView searchIcon = new ImageView();
+
+            searchButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    searchHotelNameFunction();
+                }
+            });
             //Image dimensions for button
                 searchIcon.setFitHeight(25);
                 searchIcon.setFitWidth(25);
             searchIcon.setImage(searchImg);
             searchButton.setGraphic(searchIcon);
-            //Search Bar
-            TextField searchField = new TextField();
             //Both in one
             GridPane searchButtonAndBar = new GridPane();
             searchButtonAndBar.setConstraints(searchField,0, 0); // set col 1
@@ -96,6 +99,67 @@ public class LoggedCustomerController {
 
     public Scene getMainScene(){
         return mainLoginCustomerScene;
+    }
+
+    private void searchHotelNameFunction(){
+        listView.getItems().clear();
+        if(searchField.getText() == null){
+            makeDefaultListOfHotels();
+            checkIfListIsEmpty();
+        }
+        else{
+            for (User user : users) {
+                if (Objects.equals("Hotel Manager", user.getRole())) {
+                    if (user.getUsername().contains(searchField.getText()))
+                        listView.getItems().add(user.getUsername());
+                }
+            }
+            checkIfListIsEmpty();
+        }
+    }
+
+    private void makeDefaultListOfHotels(){
+        for (User user : users) {
+            if (Objects.equals("Hotel Manager", user.getRole()))
+                listView.getItems().add(user.getUsername());
+        }
+    }
+
+    private void checkIfListIsEmpty(){
+        if(listView.getItems().isEmpty()){
+            listView.getSelectionModel().setSelectionMode(null);
+                //Popup for empty list
+                Button emptyListOKButton = new Button("Ok");
+                Text emptyListText = new Text("Nu am gasit nici un hotel!" + "\n");
+                Image sign = new Image("!.png");
+                ImageView signView = new ImageView(sign);
+                    signView.setFitWidth(150);
+                    signView.setFitHeight(150);
+
+                Stage listIsEmpty = new Stage();
+                listIsEmpty.initModality(Modality.APPLICATION_MODAL);
+                listIsEmpty.setTitle("Lista e goala!");
+
+                VBox listEmptyLayout = new VBox();
+                listEmptyLayout.setAlignment(Pos.CENTER);
+                listEmptyLayout.setPadding(new Insets(5,5,5,5));
+                listEmptyLayout.getChildren().addAll(signView, emptyListText, emptyListOKButton);
+
+                Scene scene = new Scene(listEmptyLayout,1280/3, 720/3);
+
+                listIsEmpty.setScene(scene);
+                listIsEmpty.show();
+
+                emptyListOKButton.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        listIsEmpty.close();
+                    }
+                });
+
+        }else{
+            listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        }
     }
 
 }
