@@ -93,7 +93,7 @@ public class LoginController{
             if (Objects.equals(usernameField.getText(), user.getUsername())) {
                 if (Objects.equals("Hotel Manager", user.getRole())) {
                     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("mainpagehm.fxml"));
-                    Scene hmScene = new Scene(root,1280, 720);
+                    Scene hmScene = new Scene(root,990, 925);
                     mainLoginStage.setScene(hmScene);
                 } else {
                     LoggedCustomerController LCC = new LoggedCustomerController();
