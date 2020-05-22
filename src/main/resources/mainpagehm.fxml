@@ -22,8 +22,8 @@
         </TableView>
         <TextField fx:id="capacityField" layoutX="179.0" layoutY="793.0" prefHeight="31.0" prefWidth="135.0" promptText="Capacity" />
         <TextField fx:id="priceField" layoutX="327.0" layoutY="793.0" prefHeight="31.0" prefWidth="135.0" promptText="Price" />
-        <Button layoutX="866.0" layoutY="891.0" mnemonicParsing="false" text="Save" />
-        <Button layoutX="926.0" layoutY="891.0" mnemonicParsing="false" text="Cancel" />
+        <Button layoutX="866.0" layoutY="891.0" mnemonicParsing="false" onAction="#saveButtonClicked" text="Save" />
+        <Button fx:id="cancelButton" layoutX="926.0" layoutY="891.0" mnemonicParsing="false" onAction="#cancelButtonClicked" text="Cancel" />
         <TextField fx:id="hotelFacilityField" layoutX="526.0" layoutY="793.0" promptText="Hotel facility" />
         <Text fx:id="hotelName" layoutX="386.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="217.6708984375">
             <font>
@@ -39,5 +39,6 @@
         <Button layoutX="277.0" layoutY="349.0" mnemonicParsing="false" onAction="#removeImage1" style="-fx-background-radius: 10;" text="Remove photo" />
         <Button layoutX="604.0" layoutY="349.0" mnemonicParsing="false" onAction="#displayImage2" style="-fx-background-radius: 10;" text="Add photo" />
         <Button layoutX="772.0" layoutY="349.0" mnemonicParsing="false" onAction="#removeImage2" style="-fx-background-radius: 10;" text="Remove photo" />
+      <Text fx:id="saveMessage" layoutX="469.0" layoutY="912.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="187.0" />
     </children>
 </AnchorPane>

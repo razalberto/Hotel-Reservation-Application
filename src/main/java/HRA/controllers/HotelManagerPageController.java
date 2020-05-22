@@ -1,28 +1,33 @@
 package HRA.controllers;
 
+
 import HRA.model.Room;
-import HRA.model.User;
-import HRA.services.UserService;
+
+import HRA.services.HotelManagerService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+
+import javafx.geometry.Pos;
+
+
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Objects;
 
-
-public class HotelManagerPageController {
+public class HotelManagerPageController  {
 
     @FXML
     private Text hotelName;
+    @FXML
+    private Text saveMessage;
     @FXML
     private TextField imageName1Field;
     @FXML
@@ -49,8 +54,19 @@ public class HotelManagerPageController {
     private TableColumn<Room,String> capacityColumn;
     @FXML
     private TableColumn<Room, Double> priceColumn;
+    @FXML
+    private Button cancelButton;
 
+    private static boolean answer;
+    private String name;
 
+    public void transferMessage(String message) {
+
+        hotelName.setText(message);
+    }
+    public void transferUsername(String username){
+        this.name = username;
+    }
 
 
     //This is functionality for TableView add button
@@ -106,7 +122,7 @@ public class HotelManagerPageController {
         imageView.setFitWidth(360);
         imageView.setFitHeight(225);
         paneView1.getChildren().add(imageView);
-        imageName1Field.clear();
+
 
     }
 
@@ -118,23 +134,78 @@ public class HotelManagerPageController {
         imageView.setFitWidth(360);
         imageView.setFitHeight(225);
         paneView2.getChildren().add(imageView);
-        imageName2Field.clear();
+
     }
 
     public void removeImage1(){
         paneView1.getChildren().clear();
+        imageName1Field.clear();
     }
 
     public void removeImage2(){
         paneView2.getChildren().clear();
+        imageName2Field.clear();
     }
 
     public void saveButtonClicked(){
+           ObservableList <Room> allRooms;
+           ObservableList <String> facilities;
+           allRooms = roomTableView.getItems();
+           facilities = hotelFacilitiesList.getItems();
+           HotelManagerService.addManager(name,allRooms,imageName1Field.getText(),imageName2Field.getText(),facilities,hotelName.getText());
+           saveMessage.setText("File saved successfully!");
+
+
+
+
+    }
+    public static boolean createConfirmBox(String title, String message) {
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle(title);
+        window.setMinWidth(300);
+        Label label = new Label();
+        label.setText(message);
+
+        //Create two buttons
+        Button yesButton = new Button("Yes");
+        Button noButton = new Button("No");
+
+        //Clicking will set answer and close window
+        yesButton.setOnAction(e -> {
+            answer = true;
+            window.close();
+        });
+        noButton.setOnAction(e -> {
+            answer = false;
+            window.close();
+        });
+
+        VBox layout = new VBox(10);
+
+        //Add buttons
+        layout.getChildren().addAll(label, yesButton, noButton);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout);
+        window.setScene(scene);
+        window.showAndWait();
+
+
+        return answer;
+    }
+
+    public void cancelButtonClicked() {
+
+        boolean answer = createConfirmBox("Exit","Are you sure you want to exit?");
+        if(answer) {
+            Stage stage = (Stage) cancelButton.getScene().getWindow();
+            stage.close();
+        }
+    }
+
+    public void reservationListButtonClicked(){
 
     }
 
-    public void cancelButtonClicked(){
-
-    }
 
 }
