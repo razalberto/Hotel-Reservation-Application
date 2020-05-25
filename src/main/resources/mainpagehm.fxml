@@ -34,7 +34,7 @@
         <Pane fx:id="paneView2" layoutX="562.0" layoutY="116.0" prefHeight="225.0" prefWidth="360.0" />
         <TextField fx:id="imageName2Field" layoutX="633.0" layoutY="65.0" prefHeight="31.0" prefWidth="218.0" promptText="Please enter the image name" />
         <TextField fx:id="imageName1Field" layoutX="137.0" layoutY="65.0" prefHeight="31.0" prefWidth="218.0" promptText="Please enter the image name" />
-        <Button layoutX="683.0" layoutY="891.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="147.0" text="Reservation List" />
+        <Button fx:id="reservationListButton" layoutX="683.0" layoutY="891.0" mnemonicParsing="false" onAction="#reservationListButtonClicked" prefHeight="31.0" prefWidth="147.0" text="Reservation List" />
         <Button layoutX="98.0" layoutY="349.0" mnemonicParsing="false" onAction="#displayImage1" style="-fx-background-radius: 10;" text="Add photo" />
         <Button layoutX="277.0" layoutY="349.0" mnemonicParsing="false" onAction="#removeImage1" style="-fx-background-radius: 10;" text="Remove photo" />
         <Button layoutX="604.0" layoutY="349.0" mnemonicParsing="false" onAction="#displayImage2" style="-fx-background-radius: 10;" text="Add photo" />

@@ -12,6 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -46,13 +47,12 @@ public class HotelManagerService {
         }
     }
     public static void checkOldVersionDoesNotExist(String username) {
-        for( HotelManager manager : hotelManagers){
-            if(Objects.equals(username,manager.getUsername())){
-                hotelManagers.remove(manager);
+        for (Iterator<HotelManager> iterator = hotelManagers.iterator(); iterator.hasNext(); ) {
+            HotelManager value = iterator.next();
+            if (Objects.equals(username, value.getUsername())) {
+                iterator.remove();
             }
         }
-
-
     }
     public static List<HotelManager> getHotelManagersFromHotelManagerService() {
         return hotelManagers;

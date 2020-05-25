@@ -7,9 +7,11 @@ import HRA.services.HotelManagerService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,6 +22,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 
 public class HotelManagerPageController  {
@@ -56,6 +60,8 @@ public class HotelManagerPageController  {
     private TableColumn<Room, Double> priceColumn;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Button reservationListButton;
 
     private static boolean answer;
     private String name;
@@ -155,9 +161,6 @@ public class HotelManagerPageController  {
            HotelManagerService.addManager(name,allRooms,imageName1Field.getText(),imageName2Field.getText(),facilities,hotelName.getText());
            saveMessage.setText("File saved successfully!");
 
-
-
-
     }
     public static boolean createConfirmBox(String title, String message) {
         Stage window = new Stage();
@@ -204,7 +207,14 @@ public class HotelManagerPageController  {
     }
 
     public void reservationListButtonClicked(){
-
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservationList.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) reservationListButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 990, 925));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
 
