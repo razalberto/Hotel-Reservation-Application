@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class HotelManagerPageController  {
@@ -65,6 +66,15 @@ public class HotelManagerPageController  {
 
     private static boolean answer;
     private String name;
+
+
+    public void transferImageName1(String name){
+        imageName1Field.setText(name);
+    }
+
+    public void transferImageName2(String name){
+        imageName2Field.setText(name);
+    }
 
     public void transferMessage(String message) {
 
@@ -140,6 +150,7 @@ public class HotelManagerPageController  {
         imageView.setFitWidth(360);
         imageView.setFitHeight(225);
         paneView2.getChildren().add(imageView);
+
 
     }
 
@@ -217,5 +228,38 @@ public class HotelManagerPageController  {
         }
     }
 
+    public void setPaneView1(String name) {
+        Image image = new Image("file:///C:/Images/"+name+".jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(360);
+        imageView.setFitHeight(225);
+        paneView1.getChildren().add(imageView);
+    }
 
+    public void setPaneView2(String name) {
+        Image image = new Image("file:///C:/Images/"+name+".jpg");
+        ImageView imageView = new ImageView(image);
+        imageView.setFitWidth(360);
+        imageView.setFitHeight(225);
+        paneView2.getChildren().add(imageView);
+    }
+
+    public void setHotelFacilitiesList(List <String> hotelFacilitiesList) {
+        for(String facility : hotelFacilitiesList){
+            this.hotelFacilitiesList.getItems().add(facility);
+        }
+
+
+    }
+
+    public void setRoomTableView(List <Room> rooms) {
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        for(Room room : rooms){
+            this.roomTableView.getItems().add(room);
+
+        }
+
+    }
 }

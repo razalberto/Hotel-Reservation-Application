@@ -5,6 +5,7 @@ import HRA.exceptions.IncorrectPassword;
 import HRA.exceptions.UsernameDoesNotExist;
 import HRA.model.HotelManager;
 import HRA.model.User;
+import HRA.services.HotelManagerService;
 import HRA.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,7 +41,7 @@ public class LoginController {
     @FXML
     public TextField usernameField;
 
-    private String username;
+
 
     @FXML
     public void handleLoginButtonAction() throws Exception {
@@ -88,7 +89,7 @@ public class LoginController {
 
     private Stage mainLoginStage = Main.getPrimaryStage();
 
-    public void loginButtonAction() throws Exception {
+    public boolean loginButtonAction() throws Exception {
 
         mainLoginStage.setTitle("Logged in! HRA");
 
@@ -96,15 +97,34 @@ public class LoginController {
             if (Objects.equals(usernameField.getText(), user.getUsername())) {
                 if (Objects.equals("Hotel Manager", user.getRole())) {
                    try{
-                       username = user.getUsername();
+                       for(HotelManager manager : HotelManagerService.getHotelManagersFromHotelManagerService()) {
+                           if (Objects.equals(manager.getUsername(), user.getUsername())) {
+                               FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpagehm.fxml"));
+                               Parent root = loader.load();
+                               HotelManagerPageController x = loader.getController();
+                               x.transferMessage(user.getName());
+                               x.transferUsername(user.getUsername());
+                               x.setPaneView1(manager.getImageName1());
+                               x.setPaneView2(manager.getImageName2());
+                               x.setHotelFacilitiesList(manager.getFacilities());
+                               x.setRoomTableView(manager.getRoomList());
+                               x.transferImageName1(manager.getImageName1());
+                               x.transferImageName2(manager.getImageName2());
+
+                               Scene hmScene = new Scene(root, 990, 925);
+                               mainLoginStage.setScene(hmScene);
+                               return true;
+                           }
+                      }
                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpagehm.fxml"));
                        Parent root = loader.load();
-                       HotelManagerPageController x = loader.getController();
-                       x.transferMessage(user.getName());
-                       x.transferUsername(user.getUsername());
+                       HotelManagerPageController y = loader.getController();
+                       y.transferMessage(user.getName());
+                       y.transferUsername(user.getUsername());
+
                        Scene hmScene = new Scene(root, 990, 925);
                        mainLoginStage.setScene(hmScene);
-
+                       return true;
                    }catch (IOException e){
                        e.printStackTrace();
                    }
@@ -113,12 +133,12 @@ public class LoginController {
                     LoggedCustomerController LCC = new LoggedCustomerController();
                     LCC.handleLoggedCustomer();
                     mainLoginStage.setScene(LCC.getMainScene());
+                    return true;
                 }
             }
         }
+        return true;
     }
 
-    public String getUsername (){
-        return username;
-    }
+
 }
