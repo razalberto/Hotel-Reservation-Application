@@ -37,8 +37,7 @@ public class UserService {
 
     public static void addUser(String username, String password, String role, String name, String address, String email, String phoneNumber) throws UsernameAlreadyExistsException, PasswordTooShortException {
         checkUserDoesNotAlreadyExist(username);
-        if(password.length() < 4)
-            throw new PasswordTooShortException();
+        checkPasswordIsLongEnough(password);
         users.add(new HRA.model.User(username, encodePassword(username, password), role, name, address, email, phoneNumber));
         persistUsers();
     }
@@ -49,7 +48,10 @@ public class UserService {
                 throw new UsernameAlreadyExistsException(username);
         }
     }
-
+    private static void checkPasswordIsLongEnough(String password) throws PasswordTooShortException{
+        if(password.length() < 4)
+            throw new PasswordTooShortException();
+    }
     private static void persistUsers() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();

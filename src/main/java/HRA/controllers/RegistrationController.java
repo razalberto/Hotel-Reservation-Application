@@ -41,9 +41,11 @@ public class RegistrationController {
             registrationMessage.setText("Account created successfully!");
 
         } catch (UsernameAlreadyExistsException e) {
+            usernameField.clear();
+            passwordField.clear();
             registrationMessage.setText(e.getMessage());
         }catch (PasswordTooShortException e){
-
+            passwordField.clear();
             registrationMessage.setText(e.getMessage());
         }
 

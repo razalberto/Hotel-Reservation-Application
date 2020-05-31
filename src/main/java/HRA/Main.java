@@ -1,6 +1,8 @@
 package HRA;
 
+import HRA.model.HotelManager;
 import HRA.model.User;
+import HRA.services.HotelManagerService;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,6 +34,7 @@ public class Main extends Application {
 
         window = primaryStage;
         UserService.loadUsersFromFile();
+        HotelManagerService.loadHotelManagersFromFile();
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         window.setTitle("Hotel Reservation Aplication");
