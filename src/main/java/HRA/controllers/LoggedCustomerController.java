@@ -22,6 +22,7 @@ import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,7 +52,11 @@ public class LoggedCustomerController {
             @Override
             public void handle(MouseEvent event) {
                 HotelCustomerOverviewController HCO = new HotelCustomerOverviewController();
-                HCO.handleHCO();
+                try {
+                    HCO.handleHCO(listView.getSelectionModel().getSelectedItem()); // Pass the username of hm
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 mainLoginStage.setScene(HCO.getMainScene());
             }
         });
