@@ -41,7 +41,7 @@ public class LoginController {
     @FXML
     public TextField usernameField;
 
-
+    private static Stage mainLoginStage = Main.getPrimaryStage();
 
     @FXML
     public void handleLoginButtonAction() throws Exception {
@@ -87,7 +87,7 @@ public class LoginController {
         regPopupWindow.showAndWait();
     }
 
-    private Stage mainLoginStage = Main.getPrimaryStage();
+
 
     public boolean loginButtonAction() throws Exception {
 
@@ -140,5 +140,8 @@ public class LoginController {
         return true;
     }
 
+    public static Stage getPrimaryStageFromLC(){
+        return mainLoginStage;
+    }
 
 }

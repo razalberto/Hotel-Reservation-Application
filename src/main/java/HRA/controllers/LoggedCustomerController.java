@@ -1,15 +1,11 @@
 package HRA.controllers;
 
-import HRA.Main;
 import HRA.model.User;
 import HRA.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -25,9 +21,7 @@ import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import sun.awt.image.GifImageDecoder;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +31,8 @@ public class LoggedCustomerController {
     private static Scene mainLoginCustomerScene;
     private ListView<String> listView;
     private TextField searchField = new TextField();
+
+    private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
 
     public void handleLoggedCustomer() {
 
@@ -54,7 +50,9 @@ public class LoggedCustomerController {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //TODO
+                HotelCustomerOverviewController HCO = new HotelCustomerOverviewController();
+                HCO.handleHCO();
+                mainLoginStage.setScene(HCO.getMainScene());
             }
         });
 
