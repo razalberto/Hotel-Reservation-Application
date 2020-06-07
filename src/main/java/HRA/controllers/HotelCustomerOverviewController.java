@@ -1,16 +1,12 @@
 package HRA.controllers;
 
 import HRA.model.HotelManager;
+import HRA.model.Reservation;
 import HRA.model.Room;
 import HRA.services.HotelManagerService;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,8 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,13 +30,18 @@ public class HotelCustomerOverviewController {
     private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
     private TableView <Room> roomTable = new TableView();
 
+    Stage reservePopupWindow = new Stage();
+    ChoiceBox roomTypeSelect = new ChoiceBox();
+    TextField numberOfRooms = new TextField();
+    TextField checkInDate = new TextField();
+    TextField checkOutDate = new TextField();
+
     public void handleHCO(String HMUsername) throws IOException {
 
         //TEXT
         Text text1 = new Text("Facilities");
         Text text2 = new Text("Rooms");
 
-        TableView<Room> roomTableView = null;
         List <String> facilities = null;
         List <Room> roomList = null;
         Image im1 = null;
@@ -49,8 +50,8 @@ public class HotelCustomerOverviewController {
         for(HotelManager hotelManager : HM) {
             if (Objects.equals(hotelManager.getUsername(), HMUsername)) {
                 facilities = hotelManager.getFacilities();
-                im1 = new Image("file:///C:/Images/"+hotelManager.getImageName1()+".jpg");
-                im2 = new Image("file:///C:/Images/"+hotelManager.getImageName2()+".jpg");
+                im1 = new Image("file:///C:/Images/" + hotelManager.getImageName1() + ".jpg");
+                im2 = new Image("file:///C:/Images/" + hotelManager.getImageName2() + ".jpg");
                 roomList = hotelManager.getRoomList();
             }
         }
@@ -67,6 +68,7 @@ public class HotelCustomerOverviewController {
 
         for(Room room : roomList) {
             roomTable.getItems().add(room);
+            roomTypeSelect.getItems().add(room.getType());
         }
 
 
@@ -115,7 +117,7 @@ public class HotelCustomerOverviewController {
             }
         });
 
-        //RESERVE BUTTON
+        //RESERVE BUTTON & WINDOW
         Button reserveButton = new Button("Reserve");
         VBox reserveButtonVBox = new VBox(reserveButton);
         reserveButtonVBox.setAlignment(Pos.CENTER);
@@ -123,13 +125,51 @@ public class HotelCustomerOverviewController {
             @Override
             public void handle(ActionEvent event) {
 
-                Stage reservePopupWindow = new Stage();
                 reservePopupWindow.initModality(Modality.APPLICATION_MODAL);
                 reservePopupWindow.setTitle("Reserve");
-                VBox test = new VBox();
+                    //THINGS IN RESERVE WINDOW
+                    Text roomType = new Text("Room type: ");
+
+                    roomTypeSelect.setMaxWidth(100);
+
+                    Text numberOfRoomsText = new Text("Number of rooms: ");
+
+                    numberOfRooms.setMaxWidth(100);
+
+                    Text checkInText = new Text("Check In Date: ");
+
+                    checkInDate.setMaxWidth(100);
+                    Text checkOutText = new Text("Check Out Date: ");
+
+                    checkOutDate.setMaxWidth(100);
+
+                    Button doneButton = new Button("Done");
+
+                    doneButton.setOnAction(new EventHandler<ActionEvent>() {
+                        @Override
+                        public void handle(ActionEvent event) {
+                            handleDoneReserveAction();
+                        }
+                    });
+
+                GridPane gridForReserveElements = new GridPane();
+                gridForReserveElements.setConstraints(roomType, 0, 0);
+                gridForReserveElements.setConstraints(roomTypeSelect, 1, 0);
+                gridForReserveElements.setConstraints(numberOfRoomsText, 0, 1);
+                gridForReserveElements.setConstraints(numberOfRooms, 1, 1);
+                gridForReserveElements.setConstraints(checkInText, 0, 2);
+                gridForReserveElements.setConstraints(checkInDate, 1, 2);
+                gridForReserveElements.setConstraints(checkOutText, 0, 3);
+                gridForReserveElements.setConstraints(checkOutDate, 1, 3);
+                gridForReserveElements.getChildren().addAll(roomType, roomTypeSelect, numberOfRoomsText, numberOfRooms, checkInText, checkInDate, checkOutText, checkOutDate);
+                gridForReserveElements.setAlignment(Pos.CENTER);
+
+                VBox test = new VBox(gridForReserveElements, doneButton);
+                test.setAlignment(Pos.CENTER);
                 Scene scene = new Scene(test,1280/1.5,720/1.5);
                 reservePopupWindow.setScene(scene);
-                reservePopupWindow.showAndWait();
+                reservePopupWindow.centerOnScreen();
+                reservePopupWindow.show();
 
             }
         });
@@ -159,6 +199,15 @@ public class HotelCustomerOverviewController {
 
     public Scene getMainScene(){
         return mainHotelCustomerOverviewScene;
+    }
+
+    public void handleDoneReserveAction(){
+        Reservation reservation = new Reservation();
+        reservation.setRoomType((String)roomTypeSelect.getSelectionModel().getSelectedItem());
+        reservation.setNumberOfRooms(numberOfRooms.getText());
+        reservation.setCheckInDate(checkInDate.getText());
+        reservation.setCheckOutDate(checkOutDate.getText());
+
     }
 
 }

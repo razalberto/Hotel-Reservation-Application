@@ -26,6 +26,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
         window.setTitle("Hotel Reservation Aplication");
         window.setScene(new Scene(root, 1280, 720));
+        window.centerOnScreen();
         window.show();
     }
 
