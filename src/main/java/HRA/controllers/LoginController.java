@@ -126,7 +126,7 @@ public class LoginController {
 
                 } else {
                     LoggedCustomerController LCC = new LoggedCustomerController();
-                    LCC.handleLoggedCustomer();
+                    LCC.handleLoggedCustomer(user.getUsername());
                     mainLoginStage.setScene(LCC.getMainScene());
                     return true;
                 }

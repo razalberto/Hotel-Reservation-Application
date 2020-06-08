@@ -1,9 +1,9 @@
 package HRA.controllers;
 
 import HRA.model.HotelManager;
-import HRA.model.Reservation;
 import HRA.model.Room;
 import HRA.services.HotelManagerService;
+import HRA.services.ReservationsService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -20,8 +20,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Date;
 
 public class HotelCustomerOverviewController {
 
@@ -29,6 +31,8 @@ public class HotelCustomerOverviewController {
     private static Scene mainHotelCustomerOverviewScene;
     private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
     private TableView <Room> roomTable = new TableView();
+    private String customerUsername;
+    private String HMUsername;
 
     Stage reservePopupWindow = new Stage();
     ChoiceBox roomTypeSelect = new ChoiceBox();
@@ -36,7 +40,10 @@ public class HotelCustomerOverviewController {
     TextField checkInDate = new TextField();
     TextField checkOutDate = new TextField();
 
-    public void handleHCO(String HMUsername) throws IOException {
+    public void handleHCO(String HMUsername, String customerUsername) throws IOException {
+
+        this.HMUsername = HMUsername;
+        this.customerUsername = customerUsername;
 
         //TEXT
         Text text1 = new Text("Facilities");
@@ -202,12 +209,9 @@ public class HotelCustomerOverviewController {
     }
 
     public void handleDoneReserveAction(){
-        Reservation reservation = new Reservation();
-        reservation.setRoomType((String)roomTypeSelect.getSelectionModel().getSelectedItem());
-        reservation.setNumberOfRooms(numberOfRooms.getText());
-        reservation.setCheckInDate(checkInDate.getText());
-        reservation.setCheckOutDate(checkOutDate.getText());
-
+        LocalDateTime ldt = LocalDateTime.now();
+        String currentTime = new SimpleDateFormat("dd-MM-YYYY").format(new Date(System.currentTimeMillis()));
+        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, currentTime , HMUsername);
     }
 
 }

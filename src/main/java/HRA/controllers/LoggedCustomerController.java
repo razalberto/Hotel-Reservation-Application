@@ -35,7 +35,7 @@ public class LoggedCustomerController {
 
     private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
 
-    public void handleLoggedCustomer() {
+    public void handleLoggedCustomer(String customerUsername) {
 
         //Reservation Log
         Button reservationLogButton = new Button("Past Reservations");
@@ -53,7 +53,7 @@ public class LoggedCustomerController {
             public void handle(MouseEvent event) {
                 HotelCustomerOverviewController HCO = new HotelCustomerOverviewController();
                 try {
-                    HCO.handleHCO(listView.getSelectionModel().getSelectedItem()); // Pass the username of hm
+                    HCO.handleHCO(listView.getSelectionModel().getSelectedItem(), customerUsername); // Pass the username of hm and current customer
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
