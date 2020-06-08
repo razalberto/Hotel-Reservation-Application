@@ -222,7 +222,7 @@ public class HotelManagerPageController  {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservationList.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) reservationListButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 990, 925));
+            stage.setScene(new Scene(root, 1132, 925));
         }catch(IOException e){
             e.printStackTrace();
         }
