@@ -1,6 +1,6 @@
 package HRA.services;
 
-import HRA.exceptions.CouldNotWriteHotelManagersException;
+import HRA.exceptions.*;
 import HRA.model.Reservation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,15 +8,15 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.LocalDateTime;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeParseException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
 
 public class ReservationsService {
     private static List<Reservation> reservationList;
     private static final Path RESERVATIONS_PATH = FileSystemService.getPathToFile("config", "reservationList.json");
-
 
     public static void loadReservationListFile() throws IOException {
 
@@ -29,9 +29,9 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String currentTime, String hotelName){
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
         checkOldVersionDoesNotExist(customerName);
-        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, currentTime, hotelName));
+        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
         persistReservations();
     }
 
@@ -40,7 +40,7 @@ public class ReservationsService {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(RESERVATIONS_PATH.toFile(), reservationList);
         } catch (IOException e) {
-            throw new CouldNotWriteHotelManagersException();
+            throw new CouldNotWriteReservationsException();
         }
     }
     public static void checkOldVersionDoesNotExist(String username) {
@@ -51,7 +51,39 @@ public class ReservationsService {
             }
         }
     }
-    public static List<Reservation> getHotelManagersFromHotelManagerService() {
-        return reservationList;
+
+    public static void checkInformation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate) throws ReservationException {
+            if (roomType == null) {
+                throw new RoomTypeException();
+            }
+            if (checkIfIsInt(numberOfRooms) && Integer.parseInt(numberOfRooms) < 1) {
+                throw new NumberOfRoomsException();
+            }
+            isDate(checkInDate);
+            isDate(checkOutDate);
+        }
+
+        public static boolean checkIfIsInt(String number) throws NumberOfRoomsException {
+        boolean result;
+            try {
+                Integer.parseInt(number);
+                result = true;
+            }
+            catch (NumberFormatException e)
+            {
+                throw new NumberOfRoomsException();
+            }
+        return result;
+        }
+
+    public static void isDate(String date) throws CheckInOutDateException {
+
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
+            dateFormat.parse(date);
+        } catch (DateTimeParseException | ParseException e) {
+            throw new CheckInOutDateException();
+        }
     }
+
 }

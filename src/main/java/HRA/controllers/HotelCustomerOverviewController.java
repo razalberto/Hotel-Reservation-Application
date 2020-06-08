@@ -19,11 +19,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
-import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class HotelCustomerOverviewController {
 
@@ -34,7 +32,9 @@ public class HotelCustomerOverviewController {
     private String customerUsername;
     private String HMUsername;
 
+    Text reservationException = new Text("");
     Stage reservePopupWindow = new Stage();
+    Stage reservePopupWindowConfirmation = new Stage();
     ChoiceBox roomTypeSelect = new ChoiceBox();
     TextField numberOfRooms = new TextField();
     TextField checkInDate = new TextField();
@@ -44,7 +44,8 @@ public class HotelCustomerOverviewController {
 
         this.HMUsername = HMUsername;
         this.customerUsername = customerUsername;
-
+        reservePopupWindow.initModality(Modality.APPLICATION_MODAL);
+        reservePopupWindowConfirmation.initModality(Modality.APPLICATION_MODAL);
         //TEXT
         Text text1 = new Text("Facilities");
         Text text2 = new Text("Rooms");
@@ -131,8 +132,6 @@ public class HotelCustomerOverviewController {
         reserveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-
-                reservePopupWindow.initModality(Modality.APPLICATION_MODAL);
                 reservePopupWindow.setTitle("Reserve");
                     //THINGS IN RESERVE WINDOW
                     Text roomType = new Text("Room type: ");
@@ -143,10 +142,10 @@ public class HotelCustomerOverviewController {
 
                     numberOfRooms.setMaxWidth(100);
 
-                    Text checkInText = new Text("Check In Date: ");
+                    Text checkInText = new Text("Check In Date(day-month-year): ");
 
                     checkInDate.setMaxWidth(100);
-                    Text checkOutText = new Text("Check Out Date: ");
+                    Text checkOutText = new Text("Check Out Date(day-month-year): ");
 
                     checkOutDate.setMaxWidth(100);
 
@@ -155,7 +154,11 @@ public class HotelCustomerOverviewController {
                     doneButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
                         public void handle(ActionEvent event) {
-                            handleDoneReserveAction();
+                            try {
+                                handleDoneReserveAction();
+                            } catch (Exception e) {
+                                reservationException.setText(e.toString());
+                            }
                         }
                     });
 
@@ -171,7 +174,7 @@ public class HotelCustomerOverviewController {
                 gridForReserveElements.getChildren().addAll(roomType, roomTypeSelect, numberOfRoomsText, numberOfRooms, checkInText, checkInDate, checkOutText, checkOutDate);
                 gridForReserveElements.setAlignment(Pos.CENTER);
 
-                VBox test = new VBox(gridForReserveElements, doneButton);
+                VBox test = new VBox(gridForReserveElements, doneButton, reservationException);
                 test.setAlignment(Pos.CENTER);
                 Scene scene = new Scene(test,1280/1.5,720/1.5);
                 reservePopupWindow.setScene(scene);
@@ -208,10 +211,31 @@ public class HotelCustomerOverviewController {
         return mainHotelCustomerOverviewScene;
     }
 
-    public void handleDoneReserveAction(){
-        LocalDateTime ldt = LocalDateTime.now();
-        String currentTime = new SimpleDateFormat("dd-MM-YYYY").format(new Date(System.currentTimeMillis()));
-        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, currentTime , HMUsername);
+    public void handleDoneReserveAction() throws Exception {
+
+        ReservationsService.checkInformation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText());
+        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, HMUsername);
+            //Confirmation window
+            reservePopupWindowConfirmation.setMaxHeight(200);
+            reservePopupWindowConfirmation.setMaxWidth(200);
+            Button okButton = new Button("Ok");
+            okButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    reservePopupWindowConfirmation.close();
+                }
+            });
+            VBox confirmationVBox = new VBox(new Text("Successfully reserved!"), okButton);
+            confirmationVBox.setMinSize(200,200);
+            confirmationVBox.setAlignment(Pos.CENTER);
+            reservePopupWindowConfirmation.setScene(new Scene(confirmationVBox));
+            reservePopupWindowConfirmation.centerOnScreen();
+            reservePopupWindowConfirmation.show();
+        reservationException.setText("");
+        numberOfRooms.clear();
+        checkInDate.clear();
+        checkOutDate.clear();
+        reservePopupWindow.close();
     }
 
 }

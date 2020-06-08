@@ -1,9 +1,5 @@
 package HRA.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-
 public class Reservation {
 
     private String customerName;
@@ -12,18 +8,16 @@ public class Reservation {
     private String checkInDate;
     private String checkOutDate;
     private String reservationState = "Pending";
-    private String currentTime;
     private String hotelName;
 
     public Reservation(){}
 
-    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String currentTime, String hotelName){
+    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
         this.roomType = roomType;
         this.numberOfRooms = numberOfRooms;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.customerName = customerName;
-        this.currentTime = currentTime;
         this.hotelName = hotelName;
     }
 
@@ -83,10 +77,6 @@ public class Reservation {
         this.hotelName = hotelName;
     }
 
-    public String getCurrentTime() {
-        return currentTime;
-    }
-
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -96,7 +86,6 @@ public class Reservation {
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
                 ", reservationState='" + reservationState + '\'' +
-                ", reservationDate='" + currentTime + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 '}';
     }
