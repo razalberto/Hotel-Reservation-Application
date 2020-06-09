@@ -1,15 +1,11 @@
 package HRA.controllers;
 
-import HRA.Main;
 import HRA.model.User;
 import HRA.services.UserService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -25,9 +21,8 @@ import javafx.stage.Stage;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import sun.awt.image.GifImageDecoder;
 
-import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +33,9 @@ public class LoggedCustomerController {
     private ListView<String> listView;
     private TextField searchField = new TextField();
 
-    public void handleLoggedCustomer() {
+    private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
+
+    public void handleLoggedCustomer(String customerUsername) {
 
         //Reservation Log
         Button reservationLogButton = new Button("Past Reservations");
@@ -54,7 +51,13 @@ public class LoggedCustomerController {
         listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //TODO
+                HotelCustomerOverviewController HCO = new HotelCustomerOverviewController();
+                try {
+                    HCO.handleHCO(listView.getSelectionModel().getSelectedItem(), customerUsername); // Pass the username of hm and current customer
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mainLoginStage.setScene(HCO.getMainScene());
             }
         });
 

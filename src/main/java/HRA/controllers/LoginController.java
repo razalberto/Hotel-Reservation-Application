@@ -7,24 +7,17 @@ import HRA.model.HotelManager;
 import HRA.model.User;
 import HRA.services.HotelManagerService;
 import HRA.services.UserService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Objects;
-import java.util.ResourceBundle;
 
 public class LoginController {
 
@@ -41,7 +34,7 @@ public class LoginController {
     @FXML
     public TextField usernameField;
 
-
+    private static Stage mainLoginStage = Main.getPrimaryStage();
 
     @FXML
     public void handleLoginButtonAction() throws Exception {
@@ -81,17 +74,19 @@ public class LoginController {
         Stage regPopupWindow = new Stage();
         regPopupWindow.initModality(Modality.APPLICATION_MODAL);
         regPopupWindow.setTitle("Registration");
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml")); //TODO after i get register page and controller
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
         Scene scene = new Scene(root,1280/1.5,720/1.5);
         regPopupWindow.setScene(scene);
+        regPopupWindow.centerOnScreen();
         regPopupWindow.showAndWait();
     }
 
-    private Stage mainLoginStage = Main.getPrimaryStage();
+
 
     public boolean loginButtonAction() throws Exception {
 
         mainLoginStage.setTitle("Logged in! HRA");
+        mainLoginStage.centerOnScreen();
 
         for (User user : users) {
             if (Objects.equals(usernameField.getText(), user.getUsername())) {
@@ -131,7 +126,7 @@ public class LoginController {
 
                 } else {
                     LoggedCustomerController LCC = new LoggedCustomerController();
-                    LCC.handleLoggedCustomer();
+                    LCC.handleLoggedCustomer(user.getUsername());
                     mainLoginStage.setScene(LCC.getMainScene());
                     return true;
                 }
@@ -140,5 +135,8 @@ public class LoginController {
         return true;
     }
 
+    public static Stage getPrimaryStageFromLC(){
+        return mainLoginStage;
+    }
 
 }
