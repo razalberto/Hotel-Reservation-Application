@@ -29,8 +29,8 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
-        checkOldVersionDoesNotExist(customerName);
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName) throws ReservationAlreadyExist {
+        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
         reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
         persistReservations();
     }
@@ -43,11 +43,11 @@ public class ReservationsService {
             throw new CouldNotWriteReservationsException();
         }
     }
-    public static void checkOldVersionDoesNotExist(String username) {
+    public static void checkOldVersionDoesNotExist(Reservation username) throws ReservationAlreadyExist {
         for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
             Reservation value = iterator.next();
             if (username.hashCode() == value.hashCode()) {
-                iterator.remove();
+                throw new ReservationAlreadyExist();
             }
         }
     }

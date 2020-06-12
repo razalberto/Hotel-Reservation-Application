@@ -98,6 +98,7 @@ public class Reservation {
         result += 31 * checkInDate.hashCode();
         result += 31 * checkOutDate.hashCode();
         result += 31 * customerName.hashCode();
+        result += 31 * reservationState.hashCode();
         result += 31 * hotelName.hashCode();
         return result;
     }
