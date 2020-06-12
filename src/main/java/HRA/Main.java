@@ -26,7 +26,7 @@ public class Main extends Application {
         ReservationsService.loadReservationListFile();
 
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("login.fxml"));
-        window.setTitle("Hotel Reservation Aplication");
+        window.setTitle("Hotel Reservation Application");
         window.setScene(new Scene(root, 1280, 720));
         window.centerOnScreen();
         window.show();

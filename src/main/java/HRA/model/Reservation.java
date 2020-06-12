@@ -7,18 +7,21 @@ public class Reservation {
     private String numberOfRooms;
     private String checkInDate;
     private String checkOutDate;
-    private String reservationState = "Pending";
+    private String reservationState;
+    private String message;
     private String hotelName;
 
     public Reservation(){}
 
-    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
+    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message ){
         this.roomType = roomType;
         this.numberOfRooms = numberOfRooms;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.customerName = customerName;
         this.hotelName = hotelName;
+        this.reservationState =reservationState;
+        this.message = message;
     }
 
     public String getRoomType() {
@@ -77,6 +80,14 @@ public class Reservation {
         this.hotelName = hotelName;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -86,6 +97,7 @@ public class Reservation {
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
                 ", reservationState='" + reservationState + '\'' +
+                ", message='" + message + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 '}';
     }

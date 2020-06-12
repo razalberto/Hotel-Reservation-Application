@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeParseException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ReservationsService {
     private static List<Reservation> reservationList;
@@ -21,7 +22,7 @@ public class ReservationsService {
     public static void loadReservationListFile() throws IOException {
 
         if (!Files.exists(RESERVATIONS_PATH)) {
-            FileUtils.copyURLToFile(HotelManagerService.class.getClassLoader().getResource("reservationList.json"), RESERVATIONS_PATH.toFile());
+            FileUtils.copyURLToFile(ReservationsService.class.getClassLoader().getResource("reservationList.json"), RESERVATIONS_PATH.toFile());
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -29,9 +30,10 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName) throws ReservationAlreadyExist {
-        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
-        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState, String message) throws ReservationAlreadyExist {
+        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
+        checkOldVersionDoesNotExist2(customerName,hotelName,roomType,numberOfRooms,checkInDate,checkOutDate);
+        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
         persistReservations();
     }
 
@@ -48,6 +50,14 @@ public class ReservationsService {
             Reservation value = iterator.next();
             if (username.hashCode() == value.hashCode()) {
                 throw new ReservationAlreadyExist();
+            }
+        }
+    }
+    public static void checkOldVersionDoesNotExist2(String customerName,String hotelManagerName,String roomType, String numberOfRooms, String checkInDate, String checkOutDate) {
+        for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
+            Reservation value = iterator.next();
+            if (Objects.equals(customerName, value.getCustomerName()) && Objects.equals(hotelManagerName, value.getHotelName()) && Objects.equals(roomType, value.getRoomType()) && Objects.equals(numberOfRooms, value.getNumberOfRooms()) && Objects.equals(checkInDate, value.getCheckInDate()) && Objects.equals(checkOutDate, value.getCheckOutDate())) {
+                iterator.remove();
             }
         }
     }
@@ -86,4 +96,7 @@ public class ReservationsService {
         }
     }
 
+    public static List<Reservation> getReservationList() {
+        return reservationList;
+    }
 }

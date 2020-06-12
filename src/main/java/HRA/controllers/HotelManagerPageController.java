@@ -1,9 +1,12 @@
 package HRA.controllers;
 
 
+import HRA.Main;
+import HRA.model.Reservation;
 import HRA.model.Room;
 
 import HRA.services.HotelManagerService;
+import HRA.services.ReservationsService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
@@ -24,7 +27,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class HotelManagerPageController  {
@@ -64,8 +70,11 @@ public class HotelManagerPageController  {
     @FXML
     private Button reservationListButton;
 
+    private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
+
     private static boolean answer;
     private String name;
+    private static Scene mainLoginHotelManagerScene;
 
 
     public void transferImageName1(String name){
@@ -84,6 +93,9 @@ public class HotelManagerPageController  {
         this.name = username;
     }
 
+    public String getName() {
+        return name;
+    }
 
     //This is functionality for TableView add button
     public void addButtonClicked1(){
@@ -217,15 +229,37 @@ public class HotelManagerPageController  {
         }
     }
 
-    public void reservationListButtonClicked(){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reservationList.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) reservationListButton.getScene().getWindow();
-            stage.setScene(new Scene(root, 990, 925));
-        }catch(IOException e){
-            e.printStackTrace();
+    public boolean reservationListButtonClicked() {
+
+        ArrayList<Reservation> r = new ArrayList<>();
+
+        for (Reservation reservation : ReservationsService.getReservationList()) {
+            if (Objects.equals(this.getName(), reservation.getHotelName())) {
+                r.add(reservation);
+            }
         }
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("reservationList.fxml"));
+                Parent root = loader.load();
+                HotelManagerReservationListController x = loader.getController();
+                x.loadReservations(r);
+                x.transferHotelManagerUsername(getName());
+                mainLoginHotelManagerScene = new Scene(root, 1132, 925);
+                mainLoginStage.setScene(mainLoginHotelManagerScene);
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+
+        return true;
+    }
+
+    public Scene getMainScene(){
+        return mainLoginHotelManagerScene;
     }
 
     public void setPaneView1(String name) {
