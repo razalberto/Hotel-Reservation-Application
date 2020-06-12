@@ -1,6 +1,7 @@
 package HRA.controllers;
 
 
+import HRA.Main;
 import HRA.model.Reservation;
 import HRA.model.Room;
 
@@ -69,8 +70,11 @@ public class HotelManagerPageController  {
     @FXML
     private Button reservationListButton;
 
+    private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
+
     private static boolean answer;
     private String name;
+    private static Scene mainLoginHotelManagerScene;
 
 
     public void transferImageName1(String name){
@@ -226,7 +230,7 @@ public class HotelManagerPageController  {
     }
 
     public boolean reservationListButtonClicked() {
-        Stage stage =(Stage) reservationListButton.getScene().getWindow();
+
         ArrayList<Reservation> r = new ArrayList<>();
 
         for (Reservation reservation : ReservationsService.getReservationList()) {
@@ -241,7 +245,8 @@ public class HotelManagerPageController  {
                 HotelManagerReservationListController x = loader.getController();
                 x.loadReservations(r);
                 x.transferHotelManagerUsername(getName());
-                stage.setScene(new Scene(root, 1132, 925));
+                mainLoginHotelManagerScene = new Scene(root, 1132, 925);
+                mainLoginStage.setScene(mainLoginHotelManagerScene);
 
 
             } catch (IOException e) {
@@ -252,6 +257,11 @@ public class HotelManagerPageController  {
 
         return true;
     }
+
+    public Scene getMainScene(){
+        return mainLoginHotelManagerScene;
+    }
+
     public void setPaneView1(String name) {
         Image image = new Image("file:///C:/Images/"+name+".jpg");
         ImageView imageView = new ImageView(image);

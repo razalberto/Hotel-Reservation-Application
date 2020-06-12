@@ -34,7 +34,7 @@ public class ReservationsService {
     }
     public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message){
         checkOldVersionDoesNotExist(customerName);
-        checkOldVersionDoesNotExist2(roomType,numberOfRooms,checkInDate,checkOutDate);
+        checkOldVersionDoesNotExist2(customerName,hotelName,roomType,numberOfRooms,checkInDate,checkOutDate);
         reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
         persistReservations();
     }
@@ -55,10 +55,10 @@ public class ReservationsService {
             }
         }
     }
-    public static void checkOldVersionDoesNotExist2(String roomType, String numberOfRooms, String checkInDate, String checkOutDate) {
+    public static void checkOldVersionDoesNotExist2(String customerName,String hotelManagerName,String roomType, String numberOfRooms, String checkInDate, String checkOutDate) {
         for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
             Reservation value = iterator.next();
-            if (Objects.equals(roomType, value.getRoomType()) && Objects.equals(numberOfRooms, value.getNumberOfRooms()) && Objects.equals(checkInDate, value.getCheckInDate()) && Objects.equals(checkOutDate, value.getCheckOutDate())) {
+            if (Objects.equals(customerName, value.getCustomerName()) && Objects.equals(hotelManagerName, value.getHotelName()) && Objects.equals(roomType, value.getRoomType()) && Objects.equals(numberOfRooms, value.getNumberOfRooms()) && Objects.equals(checkInDate, value.getCheckInDate()) && Objects.equals(checkOutDate, value.getCheckOutDate())) {
                 iterator.remove();
             }
         }

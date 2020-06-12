@@ -35,7 +35,7 @@ public class LoginController {
     public TextField usernameField;
 
     private static Stage mainLoginStage = Main.getPrimaryStage();
-
+    private static Scene hmScene ;
     @FXML
     public void handleLoginButtonAction() throws Exception {
         String username = usernameField.getText();
@@ -106,7 +106,7 @@ public class LoginController {
                                x.transferImageName1(manager.getImageName1());
                                x.transferImageName2(manager.getImageName2());
 
-                               Scene hmScene = new Scene(root, 990, 925);
+                               hmScene = new Scene(root, 990, 925);
                                mainLoginStage.setScene(hmScene);
                                return true;
                            }
@@ -117,7 +117,7 @@ public class LoginController {
                        y.transferMessage(user.getName());
                        y.transferUsername(user.getUsername());
 
-                       Scene hmScene = new Scene(root, 990, 925);
+                       hmScene = new Scene(root, 990, 925);
                        mainLoginStage.setScene(hmScene);
                        return true;
                    }catch (IOException e){
@@ -137,6 +137,9 @@ public class LoginController {
 
     public static Stage getPrimaryStageFromLC(){
         return mainLoginStage;
+    }
+    public static Scene getHmScene(){
+        return hmScene;
     }
 
 }

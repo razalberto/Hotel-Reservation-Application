@@ -23,7 +23,7 @@
             <TableColumn fx:id="messageColumn" prefWidth="385.0" text="Message" />
         </columns>
       </TableView>
-      <Button layoutX="342.0" layoutY="859.0" mnemonicParsing="false" style="-fx-background-radius: 10;" text="Overview" />
+      <Button fx:id="overviewButton" layoutX="342.0" layoutY="859.0" mnemonicParsing="false" onAction="#overviewButtonClicked" style="-fx-background-radius: 10;" text="Overview" />
       <Button layoutX="700.0" layoutY="859.0" mnemonicParsing="false" onAction="#sendButtonClicked" style="-fx-background-radius: 10;" text="Send" />
       <Text fx:id="sendMessage" layoutX="769.0" layoutY="880.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="285.6708984375" />
    </children>
