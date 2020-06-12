@@ -1,5 +1,6 @@
 package HRA.controllers;
 import HRA.Main;
+import HRA.exceptions.ReservationAlreadyExist;
 import HRA.model.HotelManager;
 import HRA.model.Reservation;
 import HRA.model.ReservationHM;
@@ -89,7 +90,7 @@ public class HotelManagerReservationListController {
 
     }
 
-    public void sendButtonClicked() {
+    public void sendButtonClicked() throws ReservationAlreadyExist {
         ObservableList<ReservationHM> allReservations;
         allReservations = reservationTableView.getItems();
         for (ReservationHM reservationHM : allReservations) {
