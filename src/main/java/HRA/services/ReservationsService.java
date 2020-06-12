@@ -1,11 +1,9 @@
 package HRA.services;
 
 import HRA.exceptions.*;
-import HRA.model.HotelManager;
 import HRA.model.Reservation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.scene.control.ChoiceBox;
 import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -32,8 +30,8 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message){
-        checkOldVersionDoesNotExist(customerName);
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState, String message) throws ReservationAlreadyExist {
+        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
         checkOldVersionDoesNotExist2(customerName,hotelName,roomType,numberOfRooms,checkInDate,checkOutDate);
         reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
         persistReservations();
@@ -47,11 +45,11 @@ public class ReservationsService {
             throw new CouldNotWriteReservationsException();
         }
     }
-    public static void checkOldVersionDoesNotExist(String username) {
+    public static void checkOldVersionDoesNotExist(Reservation username) throws ReservationAlreadyExist {
         for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
             Reservation value = iterator.next();
             if (username.hashCode() == value.hashCode()) {
-                iterator.remove();
+                throw new ReservationAlreadyExist();
             }
         }
     }
