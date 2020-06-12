@@ -31,7 +31,8 @@ public class HotelCustomerOverviewController {
     private TableView <Room> roomTable = new TableView();
     private String customerUsername;
     private String HMUsername;
-
+    private String reservationState = "Pending";
+    private String message = "";
 
     Text reservationException = new Text("");
     Stage reservePopupWindow = new Stage();
@@ -215,7 +216,7 @@ public class HotelCustomerOverviewController {
     public void handleDoneReserveAction() throws Exception {
 
         ReservationsService.checkInformation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText());
-        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, HMUsername);
+        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, HMUsername, reservationState , message);
             //Confirmation window
             reservePopupWindowConfirmation.setMaxHeight(200);
             reservePopupWindowConfirmation.setMaxWidth(200);

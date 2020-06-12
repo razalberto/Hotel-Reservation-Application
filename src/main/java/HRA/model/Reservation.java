@@ -7,19 +7,21 @@ public class Reservation {
     private String numberOfRooms;
     private String checkInDate;
     private String checkOutDate;
-    private String reservationState = "Pending";
-    private String message = "";
+    private String reservationState;
+    private String message;
     private String hotelName;
 
     public Reservation(){}
 
-    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
+    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message ){
         this.roomType = roomType;
         this.numberOfRooms = numberOfRooms;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
         this.customerName = customerName;
         this.hotelName = hotelName;
+        this.reservationState =reservationState;
+        this.message = message;
     }
 
     public String getRoomType() {

@@ -1,6 +1,7 @@
 package HRA.services;
 
 import HRA.exceptions.*;
+import HRA.model.HotelManager;
 import HRA.model.Reservation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeParseException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 public class ReservationsService {
     private static List<Reservation> reservationList;
@@ -30,9 +32,10 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName){
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message){
         checkOldVersionDoesNotExist(customerName);
-        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName));
+        checkOldVersionDoesNotExist2(roomType,numberOfRooms,checkInDate,checkOutDate);
+        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
         persistReservations();
     }
 
@@ -48,6 +51,14 @@ public class ReservationsService {
         for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
             Reservation value = iterator.next();
             if (username.hashCode() == value.hashCode()) {
+                iterator.remove();
+            }
+        }
+    }
+    public static void checkOldVersionDoesNotExist2(String roomType, String numberOfRooms, String checkInDate, String checkOutDate) {
+        for (Iterator<Reservation> iterator = reservationList.iterator(); iterator.hasNext(); ) {
+            Reservation value = iterator.next();
+            if (Objects.equals(roomType, value.getRoomType()) && Objects.equals(numberOfRooms, value.getNumberOfRooms()) && Objects.equals(checkInDate, value.getCheckInDate()) && Objects.equals(checkOutDate, value.getCheckOutDate())) {
                 iterator.remove();
             }
         }
