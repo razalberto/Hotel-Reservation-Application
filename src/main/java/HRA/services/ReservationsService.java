@@ -4,6 +4,7 @@ import HRA.exceptions.*;
 import HRA.model.Reservation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.scene.control.ChoiceBox;
 import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,7 +22,7 @@ public class ReservationsService {
     public static void loadReservationListFile() throws IOException {
 
         if (!Files.exists(RESERVATIONS_PATH)) {
-            FileUtils.copyURLToFile(HotelManagerService.class.getClassLoader().getResource("reservationList.json"), RESERVATIONS_PATH.toFile());
+            FileUtils.copyURLToFile(ReservationsService.class.getClassLoader().getResource("reservationList.json"), RESERVATIONS_PATH.toFile());
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -86,4 +87,7 @@ public class ReservationsService {
         }
     }
 
+    public static List<Reservation> getReservationList() {
+        return reservationList;
+    }
 }

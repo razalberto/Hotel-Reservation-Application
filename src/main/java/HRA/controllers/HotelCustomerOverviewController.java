@@ -32,6 +32,7 @@ public class HotelCustomerOverviewController {
     private String customerUsername;
     private String HMUsername;
 
+
     Text reservationException = new Text("");
     Stage reservePopupWindow = new Stage();
     Stage reservePopupWindowConfirmation = new Stage();

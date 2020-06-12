@@ -8,6 +8,7 @@ public class Reservation {
     private String checkInDate;
     private String checkOutDate;
     private String reservationState = "Pending";
+    private String message = "";
     private String hotelName;
 
     public Reservation(){}
@@ -77,6 +78,14 @@ public class Reservation {
         this.hotelName = hotelName;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -86,6 +95,7 @@ public class Reservation {
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
                 ", reservationState='" + reservationState + '\'' +
+                ", message='" + message + '\'' +
                 ", hotelName='" + hotelName + '\'' +
                 '}';
     }
