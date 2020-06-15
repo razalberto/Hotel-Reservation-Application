@@ -18,10 +18,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +31,7 @@ public class LoggedCustomerController {
     private ListView<String> listView;
     private TextField searchField = new TextField();
 
-    private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
+    private static Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
 
     public void handleLoggedCustomer(String customerUsername) {
 
@@ -42,6 +40,15 @@ public class LoggedCustomerController {
         HBox reservationLogPane = new HBox();
         reservationLogPane.setAlignment(Pos.CENTER);
         reservationLogPane.getChildren().addAll(reservationLogButton);
+        reservationLogButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                CustomerReservationLogController CRLC = new CustomerReservationLogController();
+                CRLC.makeLogReservationScene(customerUsername);
+                mainLoginStage.setScene(CRLC.getMainCRLCScene());
+            }
+        });
+
 
         //List of hotels control
         listView = new ListView<>();
@@ -53,7 +60,13 @@ public class LoggedCustomerController {
             public void handle(MouseEvent event) {
                 HotelCustomerOverviewController HCO = new HotelCustomerOverviewController();
                 try {
-                    HCO.handleHCO(listView.getSelectionModel().getSelectedItem(), customerUsername); // Pass the username of hm and current customer
+                    String hmUsername = null;
+                    for(User user : users){
+                        if(user.getName() == listView.getSelectionModel().getSelectedItem()){
+                            hmUsername = user.getUsername();
+                        }
+                    }
+                    HCO.handleHCO(hmUsername, customerUsername); // Pass the username of hm and current customer
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -104,6 +117,14 @@ public class LoggedCustomerController {
         return mainLoginCustomerScene;
     }
 
+    public static void setDefaultCustomerScene(){
+        mainLoginStage.setScene(mainLoginCustomerScene);
+    }
+
+    public static void setDefaultReservationCustomerScene(Scene s){
+        mainLoginStage.setScene(s);
+    }
+
     private void searchHotelNameFunction(){
         listView.getItems().clear();
         if(searchField.getText() == null){
@@ -113,8 +134,8 @@ public class LoggedCustomerController {
         else{
             for (User user : users) {
                 if (Objects.equals("Hotel Manager", user.getRole())) {
-                    if (user.getUsername().contains(searchField.getText()))
-                        listView.getItems().add(user.getUsername());
+                    if (user.getName().contains(searchField.getText()))
+                        listView.getItems().add(user.getName());
                 }
             }
             checkIfListIsEmpty();
@@ -124,7 +145,7 @@ public class LoggedCustomerController {
     private void makeDefaultListOfHotels(){
         for (User user : users) {
             if (Objects.equals("Hotel Manager", user.getRole()))
-                listView.getItems().add(user.getUsername());
+                listView.getItems().add(user.getName());
         }
     }
 
