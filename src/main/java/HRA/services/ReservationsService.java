@@ -74,16 +74,14 @@ public class ReservationsService {
         }
 
         public static boolean checkIfIsInt(String number) throws NumberOfRoomsException {
-        boolean result;
             try {
                 Integer.parseInt(number);
-                result = true;
             }
             catch (NumberFormatException e)
             {
                 throw new NumberOfRoomsException();
             }
-        return result;
+        return true;
         }
 
     public static void isDate(String date) throws CheckInOutDateException {
@@ -98,5 +96,10 @@ public class ReservationsService {
 
     public static List<Reservation> getReservationList() {
         return reservationList;
+    }
+
+    public static void deleteReservation(Reservation r){
+        reservationList.remove(r);
+        persistReservations();
     }
 }
