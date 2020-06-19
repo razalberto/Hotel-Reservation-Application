@@ -94,6 +94,7 @@ public class HotelManagerReservationListController {
         ObservableList<ReservationHM> allReservations;
         allReservations = reservationTableView.getItems();
         for (ReservationHM reservationHM : allReservations) {
+            if(reservationHM.getStatus().getItems().contains("Pending"))
             ReservationsService.addReservation(reservationHM.getRoomType(), reservationHM.getNumberOfRooms(), reservationHM.getCheckInDate(), reservationHM.getCheckOutDate(), reservationHM.getCustomerName(), hotelManagerName, (String) reservationHM.getStatus().getValue(), reservationHM.getMessage().getText());
         }
         sendMessage.setText("Your messages have been send!");
