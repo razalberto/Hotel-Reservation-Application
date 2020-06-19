@@ -41,12 +41,20 @@ public class HotelManagerReservationListController {
     @FXML
     private Button overviewButton;
 
+    private String hotelActualName;
+    private List<HotelManager> HM = HotelManagerService.getHotelManagersFromHotelManagerService();
+
     private String hotelManagerName;
 
     private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
 
     public void transferHotelManagerUsername(String x) {
         this.hotelManagerName = x;
+        for(HotelManager hm : HM){
+            if(hm.getUsername().equals(x)){
+                hotelActualName = hm.getHotelName();
+            }
+        }
     }
 
 
@@ -59,7 +67,6 @@ public class HotelManagerReservationListController {
         checkOutDateColumn.setCellValueFactory(new PropertyValueFactory<>("checkOutDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         messageColumn.setCellValueFactory(new PropertyValueFactory<>("message"));
-
 
         for (Reservation reservation : reservations) {
             ReservationHM reservationHM = new ReservationHM();
@@ -94,7 +101,7 @@ public class HotelManagerReservationListController {
         ObservableList<ReservationHM> allReservations;
         allReservations = reservationTableView.getItems();
         for (ReservationHM reservationHM : allReservations) {
-            ReservationsService.addReservation(reservationHM.getRoomType(), reservationHM.getNumberOfRooms(), reservationHM.getCheckInDate(), reservationHM.getCheckOutDate(), reservationHM.getCustomerName(), hotelManagerName, (String) reservationHM.getStatus().getValue(), reservationHM.getMessage().getText());
+            ReservationsService.addReservation(reservationHM.getRoomType(), reservationHM.getNumberOfRooms(), reservationHM.getCheckInDate(), reservationHM.getCheckOutDate(), reservationHM.getCustomerName(), hotelManagerName, (String) reservationHM.getStatus().getValue(), reservationHM.getMessage().getText(), hotelActualName);
         }
         sendMessage.setText("Your messages have been send!");
 
