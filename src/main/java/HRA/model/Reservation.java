@@ -10,10 +10,11 @@ public class Reservation {
     private String reservationState;
     private String message;
     private String hotelName;
+    private String hotelActualName;
 
     public Reservation(){}
 
-    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message ){
+    public Reservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState , String message, String hotelActualName){
         this.roomType = roomType;
         this.numberOfRooms = numberOfRooms;
         this.checkInDate = checkInDate;
@@ -22,6 +23,7 @@ public class Reservation {
         this.hotelName = hotelName;
         this.reservationState =reservationState;
         this.message = message;
+        this.hotelActualName = hotelActualName;
     }
 
     public String getRoomType() {
@@ -88,6 +90,14 @@ public class Reservation {
         this.message = message;
     }
 
+    public String getHotelActualName() {
+        return hotelActualName;
+    }
+
+    public void setHotelActualName(String hotelActualName) {
+        this.hotelActualName = hotelActualName;
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -99,6 +109,7 @@ public class Reservation {
                 ", reservationState='" + reservationState + '\'' +
                 ", message='" + message + '\'' +
                 ", hotelName='" + hotelName + '\'' +
+                ", hotelActualName='" + hotelActualName + '\'' +
                 '}';
     }
 
@@ -109,7 +120,7 @@ public class Reservation {
         result += 31 * numberOfRooms.hashCode();
         result += 31 * checkInDate.hashCode();
         result += 31 * checkOutDate.hashCode();
-        result += 31 * customerName.hashCode();
+        result += 31 * hotelActualName.hashCode();
         result += 31 * reservationState.hashCode();
         result += 31 * hotelName.hashCode();
         return result;

@@ -30,10 +30,10 @@ public class ReservationsService {
         reservationList = objectMapper.readValue(RESERVATIONS_PATH.toFile(), new TypeReference<List<Reservation>>() {
         });
     }
-    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState, String message) throws ReservationAlreadyExist {
-        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
+    public static void addReservation(String roomType, String numberOfRooms, String checkInDate, String checkOutDate, String customerName, String hotelName, String reservationState, String message, String hotelActualName) throws ReservationAlreadyExist {
+        checkOldVersionDoesNotExist(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message, hotelActualName));
         checkOldVersionDoesNotExist2(customerName,hotelName,roomType,numberOfRooms,checkInDate,checkOutDate);
-        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message));
+        reservationList.add(new Reservation(roomType, numberOfRooms, checkInDate, checkOutDate, customerName, hotelName, reservationState, message, hotelActualName));
         persistReservations();
     }
 

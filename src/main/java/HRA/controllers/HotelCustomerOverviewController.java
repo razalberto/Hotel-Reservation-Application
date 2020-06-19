@@ -6,6 +6,7 @@ import HRA.services.HotelManagerService;
 import HRA.services.ReservationsService;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,6 +16,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -49,7 +52,9 @@ public class HotelCustomerOverviewController {
         reservePopupWindowConfirmation.initModality(Modality.APPLICATION_MODAL);
         //TEXT
         Text text1 = new Text("Facilities");
+        text1.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         Text text2 = new Text("Rooms");
+        text2.setFont(Font.font("Arial", FontWeight.BOLD, 20));
 
         List <String> facilities = null;
         List <Room> roomList = null;
@@ -70,8 +75,14 @@ public class HotelCustomerOverviewController {
         TableColumn price = new TableColumn("Price");
 
         type.setCellValueFactory(new PropertyValueFactory<>("type"));
+        type.setStyle("-fx-alignment: CENTER;");
+        type.setMinWidth(167);
         capacity.setCellValueFactory(new PropertyValueFactory<>("capacity"));
+        capacity.setStyle("-fx-alignment: CENTER;");
+        capacity.setMinWidth(167);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
+        price.setStyle("-fx-alignment: CENTER;");
+        price.setMinWidth(168);
 
         roomTable.getColumns().addAll(type, capacity, price);
 
@@ -85,17 +96,21 @@ public class HotelCustomerOverviewController {
         HBox image1 = new HBox();
         HBox image2 = new HBox();
         ImageView Image1 = new ImageView(im1);
-        Image1.setFitHeight(248);
-        Image1.setFitWidth(248);
+        Image1.setFitHeight(450);
+        Image1.setFitWidth(450);
         ImageView Image2 = new ImageView(im2);
-        Image2.setFitHeight(248);
-        Image2.setFitWidth(248);
+        Image2.setFitHeight(450);
+        Image2.setFitWidth(450);
         image1.getChildren().addAll(Image1);
         image2.getChildren().addAll(Image2);
+        image1.setAlignment(Pos.CENTER);
+        image2.setAlignment(Pos.CENTER);
 
         //FACILITIES
         ListView facilitiesLW = new ListView();
         GridPane gpFacilities = new GridPane();
+        facilitiesLW.setMinWidth(1280/2-100);
+        facilitiesLW.setMaxHeight(300);
 
         facilitiesLW.getItems().addAll(facilities);
         HBox text1HBox = new HBox(text1);
@@ -106,6 +121,8 @@ public class HotelCustomerOverviewController {
         //ROOM LIST
         ListView roomsLW = new ListView();
         GridPane gpRooms = new GridPane();
+        roomsLW.setMinWidth(1280/2-100);
+        roomsLW.setMaxHeight(300);
 
         roomsLW.getItems().addAll(roomTable);
         HBox text2HBox = new HBox(text2);
@@ -117,6 +134,7 @@ public class HotelCustomerOverviewController {
         Button homeButton = new Button("Home");
         VBox homeButtonVBox = new VBox(homeButton);
         homeButtonVBox.setAlignment(Pos.CENTER);
+        homeButtonVBox.setPadding(new Insets(20,20,0,20));
         homeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -129,6 +147,7 @@ public class HotelCustomerOverviewController {
         //RESERVE BUTTON & WINDOW
         Button reserveButton = new Button("Reserve");
         VBox reserveButtonVBox = new VBox(reserveButton);
+        reserveButtonVBox.setPadding(new Insets(20,20,0,20));
         reserveButtonVBox.setAlignment(Pos.CENTER);
         reserveButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -194,16 +213,20 @@ public class HotelCustomerOverviewController {
         mainPage.setConstraints(gpFacilities, 1, 1);
         mainPage.setConstraints(image1, 0, 2);
         mainPage.setConstraints(image2, 1, 2);
-        mainPage.getChildren().addAll(reserveButtonVBox,homeButtonVBox,gpRooms,gpFacilities,image1,image2);
+        mainPage.getChildren().addAll(gpRooms,gpFacilities,image1,image2);
         mainPage.setAlignment(Pos.CENTER);
 
         //SPACING FOR GRID
         mainPage.setVgap(10);
         mainPage.setHgap(10);
 
+        //VBOX FOR BUTTONS
+        HBox buttonsHBox = new HBox(reserveButtonVBox,homeButtonVBox);
+        buttonsHBox.setAlignment(Pos.CENTER);
+
         //MAIN LAYOUT
         VBox layout = new VBox(10);
-        layout.getChildren().addAll(mainPage);
+        layout.getChildren().addAll(buttonsHBox, mainPage);
 
         mainHotelCustomerOverviewScene = new Scene(layout, 1400, 900);
     }
@@ -215,7 +238,14 @@ public class HotelCustomerOverviewController {
     public void handleDoneReserveAction() throws Exception {
 
         ReservationsService.checkInformation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText());
-        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, HMUsername, reservationState , message);
+        String hotelActualName = null;
+        for(HotelManager hm : HM){
+            if(hm.getUsername().equals(HMUsername)){
+                hotelActualName = hm.getHotelName();
+                break;
+            }
+        }
+        ReservationsService.addReservation((String)roomTypeSelect.getSelectionModel().getSelectedItem(),numberOfRooms.getText(), checkInDate.getText(), checkOutDate.getText(), customerUsername, HMUsername, reservationState , message, hotelActualName);
             //Confirmation window
             reservePopupWindowConfirmation.setMaxHeight(200);
             reservePopupWindowConfirmation.setMaxWidth(200);

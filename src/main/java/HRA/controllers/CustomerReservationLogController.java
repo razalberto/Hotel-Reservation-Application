@@ -59,20 +59,20 @@ public class CustomerReservationLogController {
         reservationState.setStyle("-fx-alignment: CENTER;");
         message.setStyle("-fx-alignment: CENTER;");
 
-        hotelName.setCellValueFactory(new PropertyValueFactory<>("hotelName"));
-        hotelName.setMinWidth(1280/7);
+        hotelName.setCellValueFactory(new PropertyValueFactory<>("hotelActualName"));
+        hotelName.setMinWidth(145);
         roomType.setCellValueFactory(new PropertyValueFactory<>("roomType"));
-        roomType.setMinWidth(1280/7);
+        roomType.setMinWidth(145);
         numberOfRooms.setCellValueFactory(new PropertyValueFactory<>("numberOfRooms"));
-        numberOfRooms.setMinWidth(1280/7);
+        numberOfRooms.setMinWidth(145);
         checkIn.setCellValueFactory(new PropertyValueFactory<>("checkInDate"));
-        checkIn.setMinWidth(1280/7);
+        checkIn.setMinWidth(145);
         checkOut.setCellValueFactory(new PropertyValueFactory<>("checkOutDate"));
-        checkOut.setMinWidth(1280/7);
+        checkOut.setMinWidth(145);
         reservationState.setCellValueFactory(new PropertyValueFactory<>("reservationState"));
-        reservationState.setMinWidth(1280/7);
+        reservationState.setMinWidth(145);
         message.setCellValueFactory(new PropertyValueFactory<>("message"));
-        message.setMinWidth(1280/7);
+        message.setMinWidth(400);
 
         reservationLogTable.getColumns().addAll(hotelName, roomType, numberOfRooms, checkIn, checkOut, reservationState, message);
 
@@ -120,9 +120,9 @@ public class CustomerReservationLogController {
 
     private TableView<Reservation> makeReservationLogTableView(String customerName){
         TableView <Reservation> newReservationLogTable = new TableView();
-        for(Reservation reservation : reservations){
-            if(reservation.getCustomerName().equals(customerName)){
-                newReservationLogTable.getItems().add(reservation);
+        for(Reservation r : reservations){
+            if(r.getCustomerName().equals(customerName)){
+                newReservationLogTable.getItems().add(r);
             }
         }
         newReservationLogTable.getColumns().addAll(hotelName, roomType, numberOfRooms, checkIn, checkOut, reservationState, message);
