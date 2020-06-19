@@ -56,4 +56,51 @@ public class RegistrationController {
 
     }
 
+    public Text getRegistrationMessage() {
+        return registrationMessage;
+    }
+
+    public void setRegistrationMessage(Text registrationMessage) {
+        this.registrationMessage = registrationMessage;
+    }
+
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(TextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
+    public ChoiceBox getRole() {
+        return role;
+    }
+
+    public void setRole(ChoiceBox role) {
+        this.role = role;
+    }
+
+    public void setNameField(TextField nameField) {
+        this.nameField = nameField;
+    }
+
+    public void setAddressField(TextField addressField) {
+        this.addressField = addressField;
+    }
+
+    public void setEmailField(TextField emailField) {
+        this.emailField = emailField;
+    }
+
+    public void setPhoneNumberField(TextField phoneNumberField) {
+        this.phoneNumberField = phoneNumberField;
+    }
 }
