@@ -34,8 +34,9 @@ public class UserService {
         });
     }
 
-    public static void addUser(String username, String password, String role, String name, String address, String email, String phoneNumber) throws UsernameAlreadyExistsException, PasswordTooShortException {
+    public static void addUser(String username, String password, String role, String name, String address, String email, String phoneNumber) throws UsernameAlreadyExistsException, PasswordTooShortException, UsernameIsEmptyException {
         checkUserDoesNotAlreadyExist(username);
+        checkUsernameIsNotEmpty(username);
         checkPasswordIsLongEnough(password);
         users.add(new HRA.model.User(username, encodePassword(username, password), role, name, address, email, phoneNumber));
         persistUsers();
@@ -50,6 +51,11 @@ public class UserService {
     private static void checkPasswordIsLongEnough(String password) throws PasswordTooShortException{
         if(password.length() < 4)
             throw new PasswordTooShortException();
+    }
+    private static void checkUsernameIsNotEmpty(String username) throws UsernameIsEmptyException{
+        if(username.isEmpty())
+            throw new UsernameIsEmptyException();
+
     }
     private static void persistUsers() {
         try {

@@ -1,5 +1,6 @@
 package HRA.controllers;
 
+import HRA.exceptions.UsernameIsEmptyException;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
@@ -45,6 +46,10 @@ public class RegistrationController {
             passwordField.clear();
             registrationMessage.setText(e.getMessage());
         }catch (PasswordTooShortException e){
+            passwordField.clear();
+            registrationMessage.setText(e.getMessage());
+        }catch (UsernameIsEmptyException e){
+            usernameField.clear();
             passwordField.clear();
             registrationMessage.setText(e.getMessage());
         }
