@@ -1,7 +1,7 @@
 package HRA.controllers;
 
 
-import HRA.Main;
+
 import HRA.model.Reservation;
 import HRA.model.Room;
 
@@ -27,7 +27,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -67,8 +66,6 @@ public class HotelManagerPageController  {
     private TableColumn<Room, Double> priceColumn;
     @FXML
     private Button cancelButton;
-    @FXML
-    private Button reservationListButton;
 
     private Stage mainLoginStage = LoginController.getPrimaryStageFromLC();
 
@@ -103,13 +100,18 @@ public class HotelManagerPageController  {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        room.setType(roomTypeField.getText());
-        room.setCapacity(capacityField.getText());
-        room.setPrice(Double.parseDouble(priceField.getText()));
-        roomTableView.getItems().add(room);
-        roomTypeField.clear();
-        capacityField.clear();
-        priceField.clear();
+        try {
+            room.setType(roomTypeField.getText());
+            room.setCapacity(capacityField.getText());
+            room.setPrice(Double.parseDouble(priceField.getText()));
+            roomTableView.getItems().add(room);
+            roomTypeField.clear();
+            capacityField.clear();
+            priceField.clear();
+            saveMessage.setText("");
+        }catch(NumberFormatException e){
+            saveMessage.setText("Price have to be a number!!");
+        }
 
 
     }
@@ -258,9 +260,7 @@ public class HotelManagerPageController  {
         return true;
     }
 
-    public Scene getMainScene(){
-        return mainLoginHotelManagerScene;
-    }
+
 
     public void setPaneView1(String name) {
         Image image = new Image("file:///C:/Images/"+name+".jpg");

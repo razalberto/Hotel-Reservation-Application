@@ -101,7 +101,8 @@ public class HotelManagerReservationListController {
         ObservableList<ReservationHM> allReservations;
         allReservations = reservationTableView.getItems();
         for (ReservationHM reservationHM : allReservations) {
-            ReservationsService.addReservation(reservationHM.getRoomType(), reservationHM.getNumberOfRooms(), reservationHM.getCheckInDate(), reservationHM.getCheckOutDate(), reservationHM.getCustomerName(), hotelManagerName, (String) reservationHM.getStatus().getValue(), reservationHM.getMessage().getText(), hotelActualName);
+            if(reservationHM.getStatus().getItems().contains("Pending"))
+                ReservationsService.addReservation(reservationHM.getRoomType(), reservationHM.getNumberOfRooms(), reservationHM.getCheckInDate(), reservationHM.getCheckOutDate(), reservationHM.getCustomerName(), hotelManagerName, (String) reservationHM.getStatus().getValue(), reservationHM.getMessage().getText(), hotelActualName);
         }
         sendMessage.setText("Your messages have been send!");
 
@@ -111,23 +112,8 @@ public class HotelManagerReservationListController {
 
         for (HotelManager manager : HotelManagerService.getHotelManagersFromHotelManagerService()) {
             if (Objects.equals(manager.getUsername(), hotelManagerName)) {
-               // try {
-                    /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/mainpagehm.fxml"));
-                    Parent root = loader.load();
-                    HotelManagerPageController x = loader.getController();
-                    x.setPaneView1(manager.getImageName1());
-                    x.setPaneView2(manager.getImageName2());
-                    x.setHotelFacilitiesList(manager.getFacilities());
-                    x.setRoomTableView(manager.getRoomList());
-                    x.transferImageName1(manager.getImageName1());
-                    x.transferImageName2(manager.getImageName2());
-*/
-
                     mainLoginStage.setScene(LoginController.getHmScene());
 
-             //   } catch (IOException e) {
-             //       e.printStackTrace();
-             //   }
             }
 
         }
