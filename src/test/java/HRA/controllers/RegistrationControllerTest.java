@@ -3,7 +3,6 @@ package HRA.controllers;
 
 
 import HRA.exceptions.UsernameAlreadyExistsException;
-import HRA.exceptions.UsernameIsEmptyException;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
