@@ -59,7 +59,7 @@
                             <mainClass>HRA.Main</mainClass>
                         </manifest>
                     </archive>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <appendAssemblyId>true</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
@@ -74,6 +74,19 @@
             </plugin>
         </plugins>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>plugins-releases</name>
+            <url>http://serverip:8081/artifactory/plugins-release-local</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>plugins-snapshot</name>
+            <url>http://serverip:8081/artifactory/plugins-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
