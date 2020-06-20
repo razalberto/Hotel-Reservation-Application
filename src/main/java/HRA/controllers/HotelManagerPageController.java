@@ -190,11 +190,28 @@ public class HotelManagerPageController  {
         window.setTitle(title);
         window.setMinWidth(300);
         Label label = new Label();
+        label.setStyle("-fx-background-color: transparent;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         label.setText(message);
 
         //Create two buttons
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
+        yesButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
+
+        noButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
 
         //Clicking will set answer and close window
         yesButton.setOnAction(e -> {
@@ -211,17 +228,22 @@ public class HotelManagerPageController  {
         //Add buttons
         layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle(
+                "-fx-background-image: url(" +
+                        "Theme.jpg" +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-
 
         return answer;
     }
 
     public void cancelButtonClicked() {
 
-        boolean answer = createConfirmBox("Exit","Are you sure you want to exit?");
+        boolean answer = createConfirmBox("","Are you sure you want to exit?");
         if(answer) {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
