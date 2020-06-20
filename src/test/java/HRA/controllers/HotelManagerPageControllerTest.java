@@ -1,12 +1,11 @@
 package HRA.controllers;
 
-import HRA.model.HotelManager;
-import HRA.model.Reservation;
+
 import HRA.model.Room;
 import HRA.services.FileSystemService;
 import HRA.services.HotelManagerService;
 
-import HRA.services.ReservationsService;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -16,12 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class HotelManagerPageControllerTest extends ApplicationTest {
 
