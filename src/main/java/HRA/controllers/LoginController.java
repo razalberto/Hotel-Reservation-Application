@@ -72,7 +72,7 @@ public class LoginController {
 
         Stage regPopupWindow = new Stage();
         regPopupWindow.initModality(Modality.APPLICATION_MODAL);
-        regPopupWindow.setTitle("Registration");
+        regPopupWindow.setTitle("");
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
         Scene scene = new Scene(root,1280/1.5,720/1.5);
         regPopupWindow.setScene(scene);
@@ -105,8 +105,9 @@ public class LoginController {
                                x.transferImageName1(manager.getImageName1());
                                x.transferImageName2(manager.getImageName2());
 
-                               hmScene = new Scene(root, 990, 925);
+                               hmScene = new Scene(root, 990, 947);
                                mainLoginStage.setScene(hmScene);
+                               mainLoginStage.centerOnScreen();
                                return true;
                            }
                       }
@@ -116,8 +117,9 @@ public class LoginController {
                        y.transferMessage(user.getName());
                        y.transferUsername(user.getUsername());
 
-                       hmScene = new Scene(root, 990, 925);
+                       hmScene = new Scene(root, 990, 947);
                        mainLoginStage.setScene(hmScene);
+                       mainLoginStage.centerOnScreen();
                        return true;
                    }catch (IOException e){
                        e.printStackTrace();
