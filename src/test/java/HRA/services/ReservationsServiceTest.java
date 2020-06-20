@@ -18,7 +18,7 @@ public class ReservationsServiceTest extends ApplicationTest {
 
     @BeforeClass
     public static void setupClass() {
-        FileSystemService.APPLICATION_FOLDER = ".test-reservation-service";
+        FileSystemService.APPLICATION_FOLDER = ".test-HRA";
         FileSystemService.initApplicationHomeDirIfNeeded();
     }
 

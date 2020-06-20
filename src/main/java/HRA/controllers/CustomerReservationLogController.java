@@ -20,7 +20,7 @@ public class CustomerReservationLogController {
 
     private static List<Reservation> reservations = ReservationsService.getReservationList();
     private static Scene mainCRLCScene;
-    private static TableView <Reservation> reservationLogTable = new TableView();
+    private TableView reservationLogTable = new TableView();
 
     private Button homeButtonCRLC = new Button("Home");
     private Button deleteButtonCRLC = new Button("Delete");
@@ -83,7 +83,7 @@ public class CustomerReservationLogController {
         deleteButtonCRLC.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Reservation res = reservationLogTable.getSelectionModel().getSelectedItem();
+                Reservation res = (Reservation) reservationLogTable.getSelectionModel().getSelectedItem();
                 ReservationsService.deleteReservation(res);
                 try {
                     ReservationsService.loadReservationListFile();
@@ -118,7 +118,7 @@ public class CustomerReservationLogController {
         return mainCRLCScene;
     }
 
-    private TableView<Reservation> makeReservationLogTableView(String customerName){
+    public TableView<Reservation> makeReservationLogTableView(String customerName){
         TableView <Reservation> newReservationLogTable = new TableView();
         for(Reservation r : reservations){
             if(r.getCustomerName().equals(customerName)){
@@ -130,4 +130,35 @@ public class CustomerReservationLogController {
         return newReservationLogTable;
     }
 
+    public void setHotelName(TableColumn hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public void setRoomType(TableColumn roomType) {
+        this.roomType = roomType;
+    }
+
+    public void setNumberOfRooms(TableColumn numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    public void setCheckIn(TableColumn checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public void setCheckOut(TableColumn checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public void setReservationState(TableColumn reservationState) {
+        this.reservationState = reservationState;
+    }
+
+    public void setMessage(TableColumn message) {
+        this.message = message;
+    }
+
+    public void setReservationLogTable(TableView reservationLogTable) {
+        this.reservationLogTable = reservationLogTable;
+    }
 }
