@@ -142,7 +142,7 @@ public class LoggedCustomerController {
         }
     }
 
-    private void makeDefaultListOfHotels(){
+    public void makeDefaultListOfHotels(){
         for (User user : users) {
             if (Objects.equals("Hotel Manager", user.getRole()))
                 listView.getItems().add(user.getName());

@@ -37,7 +37,7 @@ public class ReservationsService {
         persistReservations();
     }
 
-    private static void persistReservations() {
+    public static void persistReservations() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(RESERVATIONS_PATH.toFile(), reservationList);
@@ -101,5 +101,9 @@ public class ReservationsService {
     public static void deleteReservation(Reservation r){
         reservationList.remove(r);
         persistReservations();
+    }
+
+    public static Path getRESERVATIONS_PATH(){
+        return RESERVATIONS_PATH;
     }
 }

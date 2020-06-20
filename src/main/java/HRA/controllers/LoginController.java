@@ -30,14 +30,15 @@ public class LoginController {
     @FXML
     public Text loginMessage;
     @FXML
-    public PasswordField passwordField;
+    private PasswordField passwordField;
     @FXML
-    public TextField usernameField;
+    private TextField usernameField;
 
     private static Stage mainLoginStage = Main.getPrimaryStage();
     private static Scene hmScene ;
     @FXML
     public void handleLoginButtonAction() throws Exception {
+
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -62,14 +63,12 @@ public class LoginController {
         if (UserService.getAccession()) {
             loginMessage.setText("Successfully logged in!");
             loginButtonAction();
-
         }
 
     }
 
 
     public void handleRegisterButtonAction() throws Exception {
-
 
         Stage regPopupWindow = new Stage();
         regPopupWindow.initModality(Modality.APPLICATION_MODAL);
@@ -142,4 +141,23 @@ public class LoginController {
         return hmScene;
     }
 
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(TextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
+    public void setLoginMessage(Text loginMessage) {
+        this.loginMessage = loginMessage;
+    }
 }
