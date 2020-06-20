@@ -57,4 +57,8 @@ public class HotelManagerService {
     public static List<HotelManager> getHotelManagersFromHotelManagerService() {
         return hotelManagers;
     }
+
+    public static Path getManagersPath() {
+        return MANAGERS_PATH;
+    }
 }

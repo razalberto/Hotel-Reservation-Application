@@ -98,10 +98,10 @@ public class LoginController {
                                HotelManagerPageController x = loader.getController();
                                x.transferMessage(user.getName());
                                x.transferUsername(user.getUsername());
-                               x.setPaneView1(manager.getImageName1());
-                               x.setPaneView2(manager.getImageName2());
-                               x.setHotelFacilitiesList(manager.getFacilities());
-                               x.setRoomTableView(manager.getRoomList());
+                               x.setPaneView1Image(manager.getImageName1());
+                               x.setPaneView2Image(manager.getImageName2());
+                               x.setHotelFacilities(manager.getFacilities());
+                               x.setRoomTable(manager.getRoomList());
                                x.transferImageName1(manager.getImageName1());
                                x.transferImageName2(manager.getImageName2());
 
