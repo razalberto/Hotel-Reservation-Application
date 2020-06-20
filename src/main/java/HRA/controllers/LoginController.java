@@ -84,7 +84,6 @@ public class LoginController {
 
     public boolean loginButtonAction() throws Exception {
 
-        mainLoginStage.setTitle("Logged in! HRA");
         mainLoginStage.centerOnScreen();
 
         for (User user : users) {

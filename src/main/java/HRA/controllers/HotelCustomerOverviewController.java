@@ -13,9 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -91,7 +89,6 @@ public class HotelCustomerOverviewController {
             roomTypeSelect.getItems().add(room.getType());
         }
 
-
         //IMAGES
         HBox image1 = new HBox();
         HBox image2 = new HBox();
@@ -132,6 +129,12 @@ public class HotelCustomerOverviewController {
 
         //HOME BUTTON
         Button homeButton = new Button("Home");
+        homeButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         VBox homeButtonVBox = new VBox(homeButton);
         homeButtonVBox.setAlignment(Pos.CENTER);
         homeButtonVBox.setPadding(new Insets(20,20,0,20));
@@ -146,6 +149,12 @@ public class HotelCustomerOverviewController {
 
         //RESERVE BUTTON & WINDOW
         Button reserveButton = new Button("Reserve");
+        reserveButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         VBox reserveButtonVBox = new VBox(reserveButton);
         reserveButtonVBox.setPadding(new Insets(20,20,0,20));
         reserveButtonVBox.setAlignment(Pos.CENTER);
@@ -155,21 +164,51 @@ public class HotelCustomerOverviewController {
                 reservePopupWindow.setTitle("Reserve");
                     //THINGS IN RESERVE WINDOW
                     Text roomType = new Text("Room type: ");
+                    roomType.setStyle("-fx-background-color: transparent;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;");
 
                     roomTypeSelect.setMaxWidth(100);
 
                     Text numberOfRoomsText = new Text("Number of rooms: ");
+                    numberOfRoomsText.setStyle("-fx-background-color: transparent;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;");
 
                     numberOfRooms.setMaxWidth(100);
 
                     Text checkInText = new Text("Check In Date(day-month-year): ");
+                    checkInText.setStyle("-fx-background-color: transparent;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;");
 
                     checkInDate.setMaxWidth(100);
                     Text checkOutText = new Text("Check Out Date(day-month-year): ");
+                    checkOutText.setStyle("-fx-background-color: transparent;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;");
 
                     checkOutDate.setMaxWidth(100);
 
                     Button doneButton = new Button("Done");
+                    doneButton.setStyle("-fx-background-color: transparent;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;");
 
                     doneButton.setOnAction(new EventHandler<ActionEvent>() {
                         @Override
@@ -194,8 +233,23 @@ public class HotelCustomerOverviewController {
                 gridForReserveElements.getChildren().addAll(roomType, roomTypeSelect, numberOfRoomsText, numberOfRooms, checkInText, checkInDate, checkOutText, checkOutDate);
                 gridForReserveElements.setAlignment(Pos.CENTER);
 
-                VBox test = new VBox(gridForReserveElements, doneButton, reservationException);
+                reservationException.setStyle("-fx-background-color: transparent;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 2px 2px 2px 2px;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-style: italic;");
+                VBox reservationExceptionVBox = new VBox(reservationException);
+                reservationExceptionVBox.setPadding(new Insets(30,0,0,0));
+                reservationExceptionVBox.setAlignment(Pos.CENTER);
+                VBox test = new VBox(gridForReserveElements, doneButton, reservationExceptionVBox);
                 test.setAlignment(Pos.CENTER);
+                test.setStyle(
+                        "-fx-background-image: url(" +
+                                "Theme.jpg" +
+                                "); " +
+                                "-fx-background-size: cover;"
+                );
                 Scene scene = new Scene(test,1280/1.5,720/1.5);
                 reservePopupWindow.setScene(scene);
                 reservePopupWindow.centerOnScreen();
@@ -228,7 +282,17 @@ public class HotelCustomerOverviewController {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(buttonsHBox, mainPage);
 
-        mainHotelCustomerOverviewScene = new Scene(layout, 1400, 900);
+        //layout.setBackground(bg);
+        VBox root2 = new VBox();
+        root2.setStyle(
+                "-fx-background-image: url(" +
+                        "Theme.jpg" +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
+        root2.getChildren().addAll(buttonsHBox, mainPage);
+        root2.setPadding(new Insets(20,20,20,20));
+        mainHotelCustomerOverviewScene = new Scene(root2, 1300, 850);
     }
 
     public Scene getMainScene(){
@@ -250,6 +314,12 @@ public class HotelCustomerOverviewController {
             reservePopupWindowConfirmation.setMaxHeight(200);
             reservePopupWindowConfirmation.setMaxWidth(200);
             Button okButton = new Button("Ok");
+            okButton.setStyle("-fx-background-color: transparent;" +
+                    "-fx-border-color: white;" +
+                    "-fx-border-width: 2px 2px 2px 2px;" +
+                    "-fx-font-size: 16px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-font-style: italic;");
             okButton.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -257,8 +327,19 @@ public class HotelCustomerOverviewController {
                 }
             });
             VBox confirmationVBox = new VBox(new Text("Successfully reserved!"), okButton);
-            confirmationVBox.setMinSize(200,200);
+            confirmationVBox.setPrefSize(200,100);
             confirmationVBox.setAlignment(Pos.CENTER);
+            confirmationVBox.setStyle(
+                    "-fx-background-image: url(" +
+                            "Theme.jpg" +
+                            "); " +
+                            "-fx-background-size: cover;" +
+                            "-fx-border-color: white;" +
+                            "-fx-border-width: 2px 2px 2px 2px;" +
+                            "-fx-font-size: 16px;" +
+                            "-fx-font-weight: bold;" +
+                            "-fx-font-style: italic;"
+            );
             reservePopupWindowConfirmation.setScene(new Scene(confirmationVBox));
             reservePopupWindowConfirmation.centerOnScreen();
             reservePopupWindowConfirmation.show();
