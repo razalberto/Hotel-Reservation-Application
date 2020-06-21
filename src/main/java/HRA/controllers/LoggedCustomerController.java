@@ -135,7 +135,7 @@ public class LoggedCustomerController {
         mainLoginStage.setScene(s);
     }
 
-    private void searchHotelNameFunction(){
+    public void searchHotelNameFunction(){
         listView.getItems().clear();
         if(searchField.getText() == null){
             makeDefaultListOfHotels();
@@ -159,7 +159,7 @@ public class LoggedCustomerController {
         }
     }
 
-    private void checkIfListIsEmpty(){
+    public void checkIfListIsEmpty(){
         if(listView.getItems().isEmpty()){
             listView.getSelectionModel().setSelectionMode(null);
                 //Popup for empty list
@@ -213,4 +213,11 @@ public class LoggedCustomerController {
         }
     }
 
+    public ListView<String> getListView() {
+        return listView;
+    }
+
+    public void setListView(ListView<String> listView) {
+        this.listView = listView;
+    }
 }
