@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
 public class CustomerReservationLogControllerTest {
 
     private CustomerReservationLogController controller;
-//    private TableView<Reservation> newReservationLogTableView = new TableView();
 
     @BeforeClass
     public static void setupClass() throws Exception {
