@@ -90,9 +90,6 @@ public class HotelManagerPageController  {
         this.name = username;
     }
 
-    public String getName() {
-        return name;
-    }
 
     //This is functionality for TableView add button
     public void addButtonClicked1(){
@@ -193,11 +190,28 @@ public class HotelManagerPageController  {
         window.setTitle(title);
         window.setMinWidth(300);
         Label label = new Label();
+        label.setStyle("-fx-background-color: transparent;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         label.setText(message);
 
         //Create two buttons
         Button yesButton = new Button("Yes");
         Button noButton = new Button("No");
+        yesButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
+
+        noButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
 
         //Clicking will set answer and close window
         yesButton.setOnAction(e -> {
@@ -214,24 +228,29 @@ public class HotelManagerPageController  {
         //Add buttons
         layout.getChildren().addAll(label, yesButton, noButton);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle(
+                "-fx-background-image: url(" +
+                        "Theme.jpg" +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
         Scene scene = new Scene(layout);
         window.setScene(scene);
         window.showAndWait();
-
 
         return answer;
     }
 
     public void cancelButtonClicked() {
 
-        boolean answer = createConfirmBox("Exit","Are you sure you want to exit?");
+        boolean answer = createConfirmBox("","Are you sure you want to exit?");
         if(answer) {
             Stage stage = (Stage) cancelButton.getScene().getWindow();
             stage.close();
         }
     }
 
-    public boolean reservationListButtonClicked() {
+    public void reservationListButtonClicked() {
 
         ArrayList<Reservation> r = new ArrayList<>();
 
@@ -257,12 +276,11 @@ public class HotelManagerPageController  {
 
 
 
-        return true;
     }
 
 
 
-    public void setPaneView1(String name) {
+    public void setPaneView1Image(String name) {
         Image image = new Image("file:///C:/Images/"+name+".jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(360);
@@ -270,7 +288,7 @@ public class HotelManagerPageController  {
         paneView1.getChildren().add(imageView);
     }
 
-    public void setPaneView2(String name) {
+    public void setPaneView2Image(String name) {
         Image image = new Image("file:///C:/Images/"+name+".jpg");
         ImageView imageView = new ImageView(image);
         imageView.setFitWidth(360);
@@ -278,7 +296,7 @@ public class HotelManagerPageController  {
         paneView2.getChildren().add(imageView);
     }
 
-    public void setHotelFacilitiesList(List <String> hotelFacilitiesList) {
+    public void setHotelFacilities(List <String> hotelFacilitiesList) {
         for(String facility : hotelFacilitiesList){
             this.hotelFacilitiesList.getItems().add(facility);
         }
@@ -286,7 +304,7 @@ public class HotelManagerPageController  {
 
     }
 
-    public void setRoomTableView(List <Room> rooms) {
+    public void setRoomTable(List <Room> rooms) {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         capacityColumn.setCellValueFactory(new PropertyValueFactory<>("capacity"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -295,5 +313,127 @@ public class HotelManagerPageController  {
 
         }
 
+    }
+
+    public Text getHotelName() {
+        return hotelName;
+    }
+
+    public void setHotelName(Text hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public Text getSaveMessage() {
+        return saveMessage;
+    }
+
+    public void setSaveMessage(Text saveMessage) {
+        this.saveMessage = saveMessage;
+    }
+
+    public TextField getImageName1Field() {
+        return imageName1Field;
+    }
+
+    public void setImageName1Field(TextField imageName1Field) {
+        this.imageName1Field = imageName1Field;
+    }
+
+    public Pane getPaneView1() {
+        return paneView1;
+    }
+
+    public void setPaneView1(Pane paneView1) {
+        this.paneView1 = paneView1;
+    }
+
+    public TextField getImageName2Field() {
+        return imageName2Field;
+    }
+
+    public void setImageName2Field(TextField imageName2Field) {
+        this.imageName2Field = imageName2Field;
+    }
+
+    public Pane getPaneView2() {
+        return paneView2;
+    }
+
+    public void setPaneView2(Pane paneView2) {
+        this.paneView2 = paneView2;
+    }
+
+    public TextField getRoomTypeField() {
+        return roomTypeField;
+    }
+
+    public void setRoomTypeField(TextField roomTypeField) {
+        this.roomTypeField = roomTypeField;
+    }
+
+    public TextField getCapacityField() {
+        return capacityField;
+    }
+
+    public void setCapacityField(TextField capacityField) {
+        this.capacityField = capacityField;
+    }
+
+    public TextField getPriceField() {
+        return priceField;
+    }
+
+    public void setPriceField(TextField priceField) {
+        this.priceField = priceField;
+    }
+
+    public TextField getHotelFacilityField() {
+        return hotelFacilityField;
+    }
+
+    public void setHotelFacilityField(TextField hotelFacilityField) {
+        this.hotelFacilityField = hotelFacilityField;
+    }
+
+    public ListView<String> getHotelFacilitiesList() {
+        return hotelFacilitiesList;
+    }
+
+    public void setHotelFacilitiesList(ListView<String> hotelFacilitiesList) {
+        this.hotelFacilitiesList = hotelFacilitiesList;
+    }
+
+    public TableView<Room> getRoomTableView() {
+        return roomTableView;
+    }
+
+    public void setRoomTableView(TableView<Room> roomTableView) {
+        this.roomTableView = roomTableView;
+    }
+
+    public void setTypeColumn(TableColumn<Room, String> typeColumn) {
+        this.typeColumn = typeColumn;
+    }
+
+
+    public void setCapacityColumn(TableColumn<Room, String> capacityColumn) {
+        this.capacityColumn = capacityColumn;
+    }
+
+
+    public void setPriceColumn(TableColumn<Room, Double> priceColumn) {
+        this.priceColumn = priceColumn;
+    }
+
+    public void setCancelButton(Button cancelButton) {
+        this.cancelButton = cancelButton;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -1,5 +1,5 @@
 package HRA.controllers;
-import HRA.Main;
+
 import HRA.exceptions.ReservationAlreadyExist;
 import HRA.model.HotelManager;
 import HRA.model.Reservation;
@@ -8,15 +8,12 @@ import HRA.services.HotelManagerService;
 import HRA.services.ReservationsService;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.io.IOException;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -38,8 +35,7 @@ public class HotelManagerReservationListController {
     private TableColumn<ReservationHM, TextField> messageColumn;
     @FXML
     private Text sendMessage;
-    @FXML
-    private Button overviewButton;
+
 
     private String hotelActualName;
     private List<HotelManager> HM = HotelManagerService.getHotelManagersFromHotelManagerService();
@@ -118,5 +114,58 @@ public class HotelManagerReservationListController {
 
         }
 
+    }
+
+    public TableView<ReservationHM> getReservationTableView() {
+        return reservationTableView;
+    }
+
+    public void setReservationTableView(TableView<ReservationHM> reservationTableView) {
+        this.reservationTableView = reservationTableView;
+    }
+
+    public void setRoomTypeColumn(TableColumn<ReservationHM, String> roomTypeColumn) {
+        this.roomTypeColumn = roomTypeColumn;
+    }
+
+
+    public void setNumberOfRoomsColumn(TableColumn<ReservationHM, String> numberOfRoomsColumn) {
+        this.numberOfRoomsColumn = numberOfRoomsColumn;
+    }
+
+
+    public void setCheckInDateColumn(TableColumn<ReservationHM, String> checkInDateColumn) {
+        this.checkInDateColumn = checkInDateColumn;
+    }
+
+
+    public void setCheckOutDateColumn(TableColumn<ReservationHM, String> checkOutDateColumn) {
+        this.checkOutDateColumn = checkOutDateColumn;
+    }
+
+
+    public void setStatusColumn(TableColumn<ReservationHM, ChoiceBox> statusColumn) {
+        this.statusColumn = statusColumn;
+    }
+
+
+    public void setMessageColumn(TableColumn<ReservationHM, TextField> messageColumn) {
+        this.messageColumn = messageColumn;
+    }
+
+    public Text getSendMessage() {
+        return sendMessage;
+    }
+
+    public void setSendMessage(Text sendMessage) {
+        this.sendMessage = sendMessage;
+    }
+
+    public String getHotelActualName() {
+        return hotelActualName;
+    }
+
+    public void setHM(List<HotelManager> HM) {
+        this.HM = HM;
     }
 }

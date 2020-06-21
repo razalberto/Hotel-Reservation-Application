@@ -30,14 +30,15 @@ public class LoginController {
     @FXML
     public Text loginMessage;
     @FXML
-    public PasswordField passwordField;
+    private PasswordField passwordField;
     @FXML
-    public TextField usernameField;
+    private TextField usernameField;
 
     private static Stage mainLoginStage = Main.getPrimaryStage();
     private static Scene hmScene ;
     @FXML
     public void handleLoginButtonAction() throws Exception {
+
         String username = usernameField.getText();
         String password = passwordField.getText();
 
@@ -62,7 +63,6 @@ public class LoginController {
         if (UserService.getAccession()) {
             loginMessage.setText("Successfully logged in!");
             loginButtonAction();
-
         }
 
     }
@@ -70,10 +70,9 @@ public class LoginController {
 
     public void handleRegisterButtonAction() throws Exception {
 
-
         Stage regPopupWindow = new Stage();
         regPopupWindow.initModality(Modality.APPLICATION_MODAL);
-        regPopupWindow.setTitle("Registration");
+        regPopupWindow.setTitle("");
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("register.fxml"));
         Scene scene = new Scene(root,1280/1.5,720/1.5);
         regPopupWindow.setScene(scene);
@@ -85,7 +84,6 @@ public class LoginController {
 
     public boolean loginButtonAction() throws Exception {
 
-        mainLoginStage.setTitle("Logged in! HRA");
         mainLoginStage.centerOnScreen();
 
         for (User user : users) {
@@ -99,15 +97,16 @@ public class LoginController {
                                HotelManagerPageController x = loader.getController();
                                x.transferMessage(user.getName());
                                x.transferUsername(user.getUsername());
-                               x.setPaneView1(manager.getImageName1());
-                               x.setPaneView2(manager.getImageName2());
-                               x.setHotelFacilitiesList(manager.getFacilities());
-                               x.setRoomTableView(manager.getRoomList());
+                               x.setPaneView1Image(manager.getImageName1());
+                               x.setPaneView2Image(manager.getImageName2());
+                               x.setHotelFacilities(manager.getFacilities());
+                               x.setRoomTable(manager.getRoomList());
                                x.transferImageName1(manager.getImageName1());
                                x.transferImageName2(manager.getImageName2());
 
-                               hmScene = new Scene(root, 990, 925);
+                               hmScene = new Scene(root, 990, 947);
                                mainLoginStage.setScene(hmScene);
+                               mainLoginStage.centerOnScreen();
                                return true;
                            }
                       }
@@ -117,8 +116,9 @@ public class LoginController {
                        y.transferMessage(user.getName());
                        y.transferUsername(user.getUsername());
 
-                       hmScene = new Scene(root, 990, 925);
+                       hmScene = new Scene(root, 990, 947);
                        mainLoginStage.setScene(hmScene);
+                       mainLoginStage.centerOnScreen();
                        return true;
                    }catch (IOException e){
                        e.printStackTrace();
@@ -142,4 +142,23 @@ public class LoginController {
         return hmScene;
     }
 
+    public PasswordField getPasswordField() {
+        return passwordField;
+    }
+
+    public void setPasswordField(PasswordField passwordField) {
+        this.passwordField = passwordField;
+    }
+
+    public TextField getUsernameField() {
+        return usernameField;
+    }
+
+    public void setUsernameField(TextField usernameField) {
+        this.usernameField = usernameField;
+    }
+
+    public void setLoginMessage(Text loginMessage) {
+        this.loginMessage = loginMessage;
+    }
 }

@@ -11,10 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -39,6 +36,12 @@ public class LoggedCustomerController {
         Button reservationLogButton = new Button("Past Reservations");
         HBox reservationLogPane = new HBox();
         reservationLogPane.setAlignment(Pos.CENTER);
+        reservationLogButton.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         reservationLogPane.getChildren().addAll(reservationLogButton);
         reservationLogButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -106,6 +109,13 @@ public class LoggedCustomerController {
         VBox layout = new VBox(10);
         layout.getChildren().addAll(searchHBox,listView, reservationLogPane);
 
+        //Background image
+        layout.setStyle(
+                "-fx-background-image: url(" +
+                        "Theme.jpg" +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
         //Main page spacing
         layout.setPadding(new Insets(20,20,20,20));
 
@@ -142,7 +152,7 @@ public class LoggedCustomerController {
         }
     }
 
-    private void makeDefaultListOfHotels(){
+    public void makeDefaultListOfHotels(){
         for (User user : users) {
             if (Objects.equals("Hotel Manager", user.getRole()))
                 listView.getItems().add(user.getName());
@@ -154,7 +164,19 @@ public class LoggedCustomerController {
             listView.getSelectionModel().setSelectionMode(null);
                 //Popup for empty list
                 Button emptyListOKButton = new Button("Ok");
+                emptyListOKButton.setStyle("-fx-background-color: transparent;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 2px 2px 2px 2px;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-style: italic;");
                 Text emptyListText = new Text("Nu am gasit nici un hotel!" + "\n");
+                emptyListText.setStyle("-fx-background-color: transparent;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 2px 2px 2px 2px;" +
+                        "-fx-font-size: 16px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-font-style: italic;");
                 Image sign = new Image("!.png");
                 ImageView signView = new ImageView(sign);
                     signView.setFitWidth(150);
@@ -162,12 +184,17 @@ public class LoggedCustomerController {
 
                 Stage listIsEmpty = new Stage();
                 listIsEmpty.initModality(Modality.APPLICATION_MODAL);
-                listIsEmpty.setTitle("Lista e goala!");
 
                 VBox listEmptyLayout = new VBox();
                 listEmptyLayout.setAlignment(Pos.CENTER);
                 listEmptyLayout.setPadding(new Insets(5,5,5,5));
                 listEmptyLayout.getChildren().addAll(signView, emptyListText, emptyListOKButton);
+                listEmptyLayout.setStyle(
+                        "-fx-background-image: url(" +
+                                "Theme.jpg" +
+                                "); " +
+                                "-fx-background-size: cover;"
+                );
 
                 Scene scene = new Scene(listEmptyLayout,1280/3, 720/3);
 

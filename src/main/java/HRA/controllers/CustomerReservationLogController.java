@@ -20,7 +20,7 @@ public class CustomerReservationLogController {
 
     private static List<Reservation> reservations = ReservationsService.getReservationList();
     private static Scene mainCRLCScene;
-    private static TableView <Reservation> reservationLogTable = new TableView();
+    private TableView reservationLogTable = new TableView();
 
     private Button homeButtonCRLC = new Button("Home");
     private Button deleteButtonCRLC = new Button("Delete");
@@ -43,6 +43,12 @@ public class CustomerReservationLogController {
     public void makeLogReservationScene(String customerN) {
 
         //Home Button
+        homeButtonCRLC.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         homeButtonCRLC.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -83,7 +89,7 @@ public class CustomerReservationLogController {
         deleteButtonCRLC.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Reservation res = reservationLogTable.getSelectionModel().getSelectedItem();
+                Reservation res = (Reservation) reservationLogTable.getSelectionModel().getSelectedItem();
                 ReservationsService.deleteReservation(res);
                 try {
                     ReservationsService.loadReservationListFile();
@@ -92,6 +98,12 @@ public class CustomerReservationLogController {
                     VBoxForDeleteButton = new VBox(reservationLogTable, buttonsBox);
                     VBoxForDeleteButton.setPadding(new Insets(20,5,20,5));
                     VBoxForDeleteButton.setAlignment(Pos.CENTER);
+                    VBoxForDeleteButton.setStyle(
+                            "-fx-background-image: url(" +
+                                    "Theme.jpg" +
+                                    "); " +
+                                    "-fx-background-size: cover;"
+                    );
                     SceneForDeleteButton = new Scene(VBoxForDeleteButton, 1280, 720);
                     LoggedCustomerController.setDefaultReservationCustomerScene(SceneForDeleteButton);
                 } catch (IOException e) {
@@ -102,11 +114,23 @@ public class CustomerReservationLogController {
 
         deleteButtonVBox.setAlignment(Pos.BOTTOM_CENTER);
         deleteButtonVBox.setPadding(new Insets(20,20,20,20));
+        deleteButtonCRLC.setStyle("-fx-background-color: transparent;" +
+                "-fx-border-color: white;" +
+                "-fx-border-width: 2px 2px 2px 2px;" +
+                "-fx-font-size: 16px;" +
+                "-fx-font-weight: bold;" +
+                "-fx-font-style: italic;");
         buttonVBox.setPadding(new Insets(20,20,20,20));
         buttonVBox.setAlignment(Pos.BOTTOM_CENTER);
         buttonsBox = new HBox(deleteButtonVBox, buttonVBox);
         buttonsBox.setAlignment(Pos.CENTER);
         mainSceneCRLC = new VBox(reservationLogTable, buttonsBox);
+        mainSceneCRLC.setStyle(
+                "-fx-background-image: url(" +
+                        "Theme.jpg" +
+                        "); " +
+                        "-fx-background-size: cover;"
+        );
         mainSceneCRLC.setPadding(new Insets(20,5,20,5));
         mainSceneCRLC.setAlignment(Pos.CENTER);
 
@@ -118,7 +142,7 @@ public class CustomerReservationLogController {
         return mainCRLCScene;
     }
 
-    private TableView<Reservation> makeReservationLogTableView(String customerName){
+    public TableView<Reservation> makeReservationLogTableView(String customerName){
         TableView <Reservation> newReservationLogTable = new TableView();
         for(Reservation r : reservations){
             if(r.getCustomerName().equals(customerName)){
@@ -130,4 +154,35 @@ public class CustomerReservationLogController {
         return newReservationLogTable;
     }
 
+    public void setHotelName(TableColumn hotelName) {
+        this.hotelName = hotelName;
+    }
+
+    public void setRoomType(TableColumn roomType) {
+        this.roomType = roomType;
+    }
+
+    public void setNumberOfRooms(TableColumn numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    public void setCheckIn(TableColumn checkIn) {
+        this.checkIn = checkIn;
+    }
+
+    public void setCheckOut(TableColumn checkOut) {
+        this.checkOut = checkOut;
+    }
+
+    public void setReservationState(TableColumn reservationState) {
+        this.reservationState = reservationState;
+    }
+
+    public void setMessage(TableColumn message) {
+        this.message = message;
+    }
+
+    public void setReservationLogTable(TableView reservationLogTable) {
+        this.reservationLogTable = reservationLogTable;
+    }
 }
